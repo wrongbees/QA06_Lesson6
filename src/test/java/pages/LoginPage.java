@@ -13,6 +13,7 @@ public class LoginPage extends BasePage{
     private final static By password_Input_By = By.id("password");
     private final static By login_Button_By = By.id("login-button");
     private final static By error_Label_By = By.tagName("h3");
+    private final static By login_image_By = By.cssSelector(".bot_column");
 
 
 
@@ -40,6 +41,7 @@ public class LoginPage extends BasePage{
     public WebElement getPasswordInput(){return driver.findElement(password_Input_By); }
     public WebElement getLoginButton(){return driver.findElement(login_Button_By); }
     public WebElement getErrorLabel(){ return driver.findElement(error_Label_By);}
+    public WebElement getLoginPageImage(){ return  driver.findElement(login_Button_By);}
 
     // Атомарные методы по работе с элементами
     public void setUsername(String text){
