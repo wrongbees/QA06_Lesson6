@@ -2,6 +2,7 @@ package pages;
 
 import baseEntities.BasePage;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ProductsPage extends BasePage {
     private final static By sort_by_name_az = By.cssSelector(".product_sort_container>[value = 'az'] ");
     private final static By sort_by_name_za = By.cssSelector(".product_sort_container>[value = 'za'] ");
     private final static By sort_by_price_lohi = By.cssSelector(".product_sort_container>[value = 'lohi'] ");
-    private final static By sort_by_price_hilo = By.cssSelector(".product_sort_container>[value = 'lohi'] ");
+    private final static By sort_by_price_hilo = By.cssSelector(".product_sort_container>[value = 'hilo'] ");
     // элементы  окон товара
     private final static By inventory_item_name = By.cssSelector(".inventory_item_name");
     private final static By inventory_item_price = By.cssSelector(".inventory_item_price");
@@ -95,9 +96,17 @@ public class ProductsPage extends BasePage {
         return driver.findElement(logout);
     }
 
-
-    private List<WebElement> get_add_button_list() {
+    // Возвращаем лист кнопок товара
+    public List<WebElement> get_add_button_list() {
         return driver.findElements(inventory_item_add_button);
+    }
+    // возвращаем лист имен товара
+    public List<WebElement> getInventoryItemNamesList() {
+        return driver.findElements(inventory_item_name);
+    }
+
+    public List<WebElement> getInventoryItemPriceList() {
+        return driver.findElements(inventory_item_price);
     }
 
     // кнопка add to cart по номеру
@@ -136,6 +145,26 @@ public class ProductsPage extends BasePage {
     }
 
     public void clickShoppingCartLink() {getShoppingCartLink().click();}
+
+    public void clickSortByName_az(){
+        Select select = new Select(getProductSortContainer());
+        select.selectByVisibleText(getSortByName_az().getText());
+    }
+
+    public void clickSortByName_za(){
+        Select select = new Select(getProductSortContainer());
+        select.selectByVisibleText(getSortByName_za().getText());
+    }
+
+    public void clickSortByPrice_hilo(){
+        Select select = new Select(getProductSortContainer());
+        select.selectByVisibleText(getSortByPrice_hilo().getText());
+    }
+
+    public void clickSortByPrice_lohi(){
+        Select select = new Select(getProductSortContainer());
+        select.selectByVisibleText(getSortByPrice_lohi().getText());
+    }
 
 
 }

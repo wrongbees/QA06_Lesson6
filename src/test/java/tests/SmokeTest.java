@@ -3,9 +3,12 @@ package tests;
 import baseEntities.BaseTest;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
+
+import java.util.List;
 
 
 public class SmokeTest extends BaseTest {
@@ -35,7 +38,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void positive_test_for_adding_an_item_to_the_cart() {
+    public void positiveTestForAddingAnItemToTheCart() {
 
         LoginPage loginPage = new LoginPage(driver, true);
         loginPage.setUsername("standard_user");
@@ -98,7 +101,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void positivePaymentVerificationTest(){
+    public void positivePaymentVerificationTest() {
         LoginPage loginPage = new LoginPage(driver, true);
         loginPage.setUsername("standard_user");
         loginPage.setPassword("secret_sauce");
@@ -121,10 +124,54 @@ public class SmokeTest extends BaseTest {
         checkoutPage.setPostalCode("12345");
         checkoutPage.clickContinue();
 
-        CheckoutOverviewPage  checkoutOverview = new CheckoutOverviewPage(driver, false);
+        CheckoutOverviewPage checkoutOverview = new CheckoutOverviewPage(driver, false);
         checkoutOverview.clickFinishButton();
 
         CheckoutCompletePage checkoutCompletePage = new CheckoutCompletePage(driver, false);
 
     }
+
+    @Test
+    public void positiveSortingGoodsByName_ZATest() {
+        LoginPage loginPage = new LoginPage(driver, true);
+        loginPage.setUsername("standard_user");
+        loginPage.setPassword("secret_sauce");
+        loginPage.clickLoginButton();
+
+        ProductsPage page = new ProductsPage(driver, false);
+        page.clickSortByName_za();
+
+        List<WebElement> listItemName = page.getInventoryItemNamesList();
+        for (int i = 0; i < listItemName.size() - 1; i++) {
+            boolean result = listItemName.get(i).getText().compareTo(listItemName.get(i + 1).getText()) > 0;
+            Assert.assertEquals(result, true,
+                    "После сортировки [Name (Z to A)] нужный порядок не достигнут");
+        }
+
+    }
+
+    @Test
+    public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(driver, true);
+        loginPage.setUsername("standard_user");
+        loginPage.setPassword("secret_sauce");
+        loginPage.clickLoginButton();
+
+        ProductsPage page = new ProductsPage(driver, false);
+        page.clickSortByPrice_hilo();
+
+
+        List<WebElement> listItemPrice = page.getInventoryItemPriceList();
+        for (int i = 0; i < listItemPrice.size() - 1; i++) {
+
+            double price_1 = Double.parseDouble(listItemPrice.get(i).getText().replace("$",""));
+            double price_2 = Double.parseDouble(listItemPrice.get(i+1).getText().replace("$",""));
+            boolean result = (price_2 - price_1) <= 0;
+
+            Assert.assertEquals(result, true,
+                    "После сортировки [Price (high to low)] нужный порядок не достигнут");
+        }
+
+    }
+
 }
