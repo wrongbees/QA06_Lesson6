@@ -21,4 +21,5 @@ public class ReadProperties {
     public String getUsername() { return properties.getProperty("username");}
     public String getPassword() { return properties.getProperty("password");}
     public int getTimeout() { return Integer.parseInt(properties.getProperty("timeout"));}
+    public boolean getHeadless() {return Boolean.parseBoolean(properties.getProperty("headless"));}
 }

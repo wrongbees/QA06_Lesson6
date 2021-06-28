@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
+import steps.LoginStep;
 
 import java.util.List;
 
@@ -14,11 +15,8 @@ import java.util.List;
 public class SmokeTest extends BaseTest {
     @Test
     public void positiveLoginTest() {
-
-        LoginPage loginPage = new LoginPage(driver, true);
-        loginPage.setUsername(properties.getUsername());
-        loginPage.setPassword(properties.getPassword());
-        loginPage.clickLoginButton();
+        LoginStep loginStep = new LoginStep(driver);
+        loginStep.login(properties.getUsername(),properties.getPassword());
 
         ProductsPage page = new ProductsPage(driver, false);
         Assert.assertEquals(page.getTitleText(), "PRODUCTS", "Страница Products не открылась");
@@ -27,12 +25,13 @@ public class SmokeTest extends BaseTest {
 
     @Test
     public void negativeLoginTests() {
-        LoginPage loginPage = new LoginPage(driver, true);
-        loginPage.setUsername("standard");
-        loginPage.setPassword("secret");
-        loginPage.clickLoginButton();
 
-        Assert.assertEquals(loginPage.getErrorLabel().getText(),
+        LoginStep loginStep = new LoginStep(driver);
+        loginStep.login("standard","secret");
+
+
+
+        Assert.assertEquals(new LoginPage(driver,false).getErrorLabel().getText(),
                 "Epic sadface: Username and password do not match any user in this service");
 
     }
@@ -62,10 +61,10 @@ public class SmokeTest extends BaseTest {
         try {
             page.getShoppingCartBadgeValue();
         } catch (NoSuchElementException e) {
-            System.out.println(e);
+
             isDisplayed = false;
         }
-        Assert.assertEquals(isDisplayed, false);
+        Assert.assertFalse(isDisplayed);
 
 
     }
@@ -76,15 +75,15 @@ public class SmokeTest extends BaseTest {
 
         LoginPage loginPage = new LoginPage(driver, true);
 
-        for (int i = 0; i < userName.length; i++) {
-            loginPage.setUsername(userName[i]);
+        for (String s : userName) {
+            loginPage.setUsername(s);
             loginPage.setPassword("secret_sauce");
             loginPage.clickLoginButton();
 
             try {
                 loginPage.getLoginPageImage();
 
-                System.out.println("User_name " + userName[i] + " не подходит.");
+                System.out.println("User_name " + s + " не подходит.");
                 throw new AssertionError();
 
 
@@ -144,14 +143,13 @@ public class SmokeTest extends BaseTest {
         List<WebElement> listItemName = page.getInventoryItemNamesList();
         for (int i = 0; i < listItemName.size() - 1; i++) {
             boolean result = listItemName.get(i).getText().compareTo(listItemName.get(i + 1).getText()) > 0;
-            Assert.assertEquals(result, true,
-                    "После сортировки [Name (Z to A)] нужный порядок не достигнут");
+            Assert.assertTrue(result, "После сортировки [Name (Z to A)] нужный порядок не достигнут");
         }
 
     }
 
     @Test
-    public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
+    public void positiveSortingGoodsByPrice_HiLoTest() {
         LoginPage loginPage = new LoginPage(driver, true);
         loginPage.setUsername("standard_user");
         loginPage.setPassword("secret_sauce");
@@ -168,8 +166,7 @@ public class SmokeTest extends BaseTest {
             double price_2 = Double.parseDouble(listItemPrice.get(i+1).getText().replace("$",""));
             boolean result = (price_2 - price_1) <= 0;
 
-            Assert.assertEquals(result, true,
-                    "После сортировки [Price (high to low)] нужный порядок не достигнут");
+            Assert.assertTrue(result, "После сортировки [Price (high to low)] нужный порядок не достигнут");
         }
 
     }
