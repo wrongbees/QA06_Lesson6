@@ -24,7 +24,7 @@ public class LoginPage extends BasePage{
 
 
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(properties.getURL());
     }
 
     public boolean isPageOpened() {

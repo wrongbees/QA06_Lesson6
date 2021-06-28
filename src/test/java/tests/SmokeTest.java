@@ -16,8 +16,8 @@ public class SmokeTest extends BaseTest {
     public void positiveLoginTest() {
 
         LoginPage loginPage = new LoginPage(driver, true);
-        loginPage.setUsername("standard_user");
-        loginPage.setPassword("secret_sauce");
+        loginPage.setUsername(properties.getUsername());
+        loginPage.setPassword(properties.getPassword());
         loginPage.clickLoginButton();
 
         ProductsPage page = new ProductsPage(driver, false);

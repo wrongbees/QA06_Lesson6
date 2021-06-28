@@ -8,6 +8,7 @@ import java.util.List;
 
 
 public class ProductsPage extends BasePage {
+    private final static String endpoint = "inventory.html";
 
     private final static By title_label_By = By.className("title");
     // элементы верхнего левого меню
@@ -34,7 +35,7 @@ public class ProductsPage extends BasePage {
 
 
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/inventory.html");
+        driver.get(properties.getURL() + endpoint);
     }
 
     public boolean isPageOpened() {
