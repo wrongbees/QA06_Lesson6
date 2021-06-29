@@ -1,7 +1,7 @@
 package tests;
 
 import baseEntities.BaseTest;
-import net.bytebuddy.implementation.bytecode.Throw;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -38,11 +38,8 @@ public class SmokeTest extends BaseTest {
 
     @Test
     public void positiveTestForAddingAnItemToTheCart() {
-
-        LoginPage loginPage = new LoginPage(driver, true);
-        loginPage.setUsername("standard_user");
-        loginPage.setPassword("secret_sauce");
-        loginPage.clickLoginButton();
+        LoginStep loginStep = new LoginStep(driver);
+        loginStep.login();
 
         ProductsPage page = new ProductsPage(driver, false);
 
@@ -73,19 +70,18 @@ public class SmokeTest extends BaseTest {
     public void positiveAcceptedUsernameTest() throws InterruptedException {
         String[] userName = {"standard_user", "problem_user", "performance_glitch_user", "locked_out_user"};
 
+        LoginStep loginStep = new LoginStep(driver);
         LoginPage loginPage = new LoginPage(driver, true);
 
-        for (String s : userName) {
-            loginPage.setUsername(s);
-            loginPage.setPassword("secret_sauce");
-            loginPage.clickLoginButton();
+        for (String name : userName) {
+            loginStep.login(name,properties.getPassword());
+
 
             try {
                 loginPage.getLoginPageImage();
 
-                System.out.println("User_name " + s + " не подходит.");
+                System.out.println("User_name " + name + " не подходит.");
                 throw new AssertionError();
-
 
             } catch (NoSuchElementException e) {
 
@@ -101,12 +97,10 @@ public class SmokeTest extends BaseTest {
 
     @Test
     public void positivePaymentVerificationTest() {
-        LoginPage loginPage = new LoginPage(driver, true);
-        loginPage.setUsername("standard_user");
-        loginPage.setPassword("secret_sauce");
-        loginPage.clickLoginButton();
+       new LoginStep(driver).login();
 
         ProductsPage page = new ProductsPage(driver, false);
+
         for (int i = 0; i <= 5; i++) {
             page.clickInventory_item_add_button_by_number(i);
             Assert.assertEquals(Integer.parseInt(page.getShoppingCartBadgeValue()), i + 1);

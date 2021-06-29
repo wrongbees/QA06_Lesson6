@@ -29,6 +29,9 @@ public class ProductsPage extends BasePage {
     private final static By inventory_item_add_button = By.cssSelector(".btn_inventory");
     private final static By inventory_item_remove_button = By.cssSelector(".btn_secondary");
 
+    private final static String product_addToCart_button =
+            "//*[text()='replace']/ancestor::div[@class = 'inventory_item_description']//button";
+
     public ProductsPage(WebDriver driver, boolean openPageByUrl) {
         super(driver, openPageByUrl);
     }
@@ -110,6 +113,10 @@ public class ProductsPage extends BasePage {
         return driver.findElements(inventory_item_price);
     }
 
+    // возвращает кнопку элемента по имени
+    public WebElement getAddToCartButton(String productName){
+        return driver.findElement(By.xpath(product_addToCart_button.replace("replace",productName)));}
+
     // кнопка add to cart по номеру
     public void clickInventory_item_add_button_by_number(int number) {
         driver.findElements(inventory_item_add_button).get(number).click();
@@ -117,7 +124,6 @@ public class ProductsPage extends BasePage {
 
     // кнопка remove to cart по номеру
     public void clickInventory_item_remove_button_by_number(int number) {
-        driver.findElements(inventory_item_remove_button).size();
         driver.findElements(inventory_item_remove_button).get(number).click();
     }
 
@@ -165,6 +171,10 @@ public class ProductsPage extends BasePage {
     public void clickSortByPrice_lohi(){
         Select select = new Select(getProductSortContainer());
         select.selectByVisibleText(getSortByPrice_lohi().getText());
+    }
+    // добавление товара в корзину
+    public void addToCart(String productName){
+        getAddToCartButton(productName).click();
     }
 
 
