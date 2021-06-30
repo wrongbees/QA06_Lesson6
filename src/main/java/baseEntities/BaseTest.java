@@ -16,7 +16,7 @@ public class BaseTest {
     @BeforeTest
     public void setupTest(){
         WebDriverManager.getInstance(DriverManagerType.CHROME).setup();
-        properties = new ReadProperties();
+        properties = ReadProperties.createReadProperties();
     }
 
 

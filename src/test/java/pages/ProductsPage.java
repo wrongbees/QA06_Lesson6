@@ -128,8 +128,8 @@ public class ProductsPage extends BasePage {
     }
 
     //имя товара по номеру
-    public WebElement getInventory_item_name_by_number(int number) {
-        return driver.findElements(inventory_item_name).get(number);
+    public String getInventory_item_name_by_number(int number) {
+        return driver.findElements(inventory_item_name).get(number).getText();
     }
 
     // цена товара по элементу

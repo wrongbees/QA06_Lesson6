@@ -14,7 +14,7 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver, boolean openPageByUrl) {
         this.driver = driver;
-        properties = new ReadProperties();
+        properties = ReadProperties.createReadProperties();
 
         if (openPageByUrl) {
             openPage();

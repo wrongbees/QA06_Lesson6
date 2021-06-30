@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
-import steps.LoginStep;
+import steps.*;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class SmokeTest extends BaseTest {
     @Test
     public void positiveLoginTest() {
         LoginStep loginStep = new LoginStep(driver);
-        loginStep.login(properties.getUsername(),properties.getPassword());
+        loginStep.login(properties.getUsername(), properties.getPassword());
 
         ProductsPage page = new ProductsPage(driver, false);
         Assert.assertEquals(page.getTitleText(), "PRODUCTS", "Страница Products не открылась");
@@ -27,11 +27,9 @@ public class SmokeTest extends BaseTest {
     public void negativeLoginTests() {
 
         LoginStep loginStep = new LoginStep(driver);
-        loginStep.login("standard","secret");
+        loginStep.login("standard", "secret");
 
-
-
-        Assert.assertEquals(new LoginPage(driver,false).getErrorLabel().getText(),
+        Assert.assertEquals(LoginPage.createLoginPage(driver, false).getErrorLabel().getText(),
                 "Epic sadface: Username and password do not match any user in this service");
 
     }
@@ -50,20 +48,18 @@ public class SmokeTest extends BaseTest {
 
         for (int i = 0; i < 5; i++) {
             page.clickInventory_item_remove_button_by_number(0);
-            System.out.println(page.getShoppingCartBadgeValue());
+
             Assert.assertEquals(Integer.parseInt(page.getShoppingCartBadgeValue()), 5 - i);
         }
+
         page.clickInventory_item_remove_button_by_number(0);
         boolean isDisplayed = true;
         try {
             page.getShoppingCartBadgeValue();
         } catch (NoSuchElementException e) {
-
             isDisplayed = false;
         }
         Assert.assertFalse(isDisplayed);
-
-
     }
 
     @Test
@@ -71,11 +67,10 @@ public class SmokeTest extends BaseTest {
         String[] userName = {"standard_user", "problem_user", "performance_glitch_user", "locked_out_user"};
 
         LoginStep loginStep = new LoginStep(driver);
-        LoginPage loginPage = new LoginPage(driver, true);
+        LoginPage loginPage = LoginPage.createLoginPage(driver, true);
 
         for (String name : userName) {
-            loginStep.login(name,properties.getPassword());
-
+            loginStep.login(name, properties.getPassword());
 
             try {
                 loginPage.getLoginPageImage();
@@ -90,46 +85,34 @@ public class SmokeTest extends BaseTest {
                 products.clickLogout();
 
             }
-
         }
-
     }
 
     @Test
     public void positivePaymentVerificationTest() {
-       new LoginStep(driver).login();
+
+        new LoginStep(driver).login();
 
         ProductsPage page = new ProductsPage(driver, false);
 
-        for (int i = 0; i <= 5; i++) {
-            page.clickInventory_item_add_button_by_number(i);
-            Assert.assertEquals(Integer.parseInt(page.getShoppingCartBadgeValue()), i + 1);
-        }
+        String inventoryName = page.getInventory_item_name_by_number(2);
+        new OrderStep(driver).orderOneProduct(inventoryName);
 
         page.clickShoppingCartLink();
 
-        CartPage cartPage = new CartPage(driver, false);
-        cartPage.clickCheckoutButton();
+        new CartReadyForCheckingStep(driver);
 
-        CheckoutPage checkoutPage = new CheckoutPage(driver, false);
-        checkoutPage.setFirstName("Katy");
-        checkoutPage.setLastName("Second");
-        checkoutPage.setPostalCode("12345");
-        checkoutPage.clickContinue();
+        new CheckoutPageStep(driver).checkoutContinue();
 
-        CheckoutOverviewPage checkoutOverview = new CheckoutOverviewPage(driver, false);
-        checkoutOverview.clickFinishButton();
+        new CheckoutOverviewPageFinishStep(driver);
 
-        CheckoutCompletePage checkoutCompletePage = new CheckoutCompletePage(driver, false);
+        Assert.assertTrue(new CheckoutCompletePage(driver, false).getTitleLabel().isDisplayed());
 
     }
 
     @Test
     public void positiveSortingGoodsByName_ZATest() {
-        LoginPage loginPage = new LoginPage(driver, true);
-        loginPage.setUsername("standard_user");
-        loginPage.setPassword("secret_sauce");
-        loginPage.clickLoginButton();
+        new LoginStep(driver).login();
 
         ProductsPage page = new ProductsPage(driver, false);
         page.clickSortByName_za();
@@ -144,10 +127,7 @@ public class SmokeTest extends BaseTest {
 
     @Test
     public void positiveSortingGoodsByPrice_HiLoTest() {
-        LoginPage loginPage = new LoginPage(driver, true);
-        loginPage.setUsername("standard_user");
-        loginPage.setPassword("secret_sauce");
-        loginPage.clickLoginButton();
+        new LoginStep(driver).login();
 
         ProductsPage page = new ProductsPage(driver, false);
         page.clickSortByPrice_hilo();
@@ -156,8 +136,8 @@ public class SmokeTest extends BaseTest {
         List<WebElement> listItemPrice = page.getInventoryItemPriceList();
         for (int i = 0; i < listItemPrice.size() - 1; i++) {
 
-            double price_1 = Double.parseDouble(listItemPrice.get(i).getText().replace("$",""));
-            double price_2 = Double.parseDouble(listItemPrice.get(i+1).getText().replace("$",""));
+            double price_1 = Double.parseDouble(listItemPrice.get(i).getText().replace("$", ""));
+            double price_2 = Double.parseDouble(listItemPrice.get(i + 1).getText().replace("$", ""));
             boolean result = (price_2 - price_1) <= 0;
 
             Assert.assertTrue(result, "После сортировки [Price (high to low)] нужный порядок не достигнут");

@@ -10,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class BrowserService {
-    private ReadProperties properties = new ReadProperties();
+    private ReadProperties properties =ReadProperties.createReadProperties();
     private DriverManagerType driverManagerType;
     private WebDriver driver;
 

@@ -6,19 +6,19 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class CheckoutPage extends BasePage {
+public class CheckoutCartPage extends BasePage {
 
     private final static By button_continue = By.id("continue");
     private final static By firstName_by = By.id("first-name");
     private final static By lastName_by = By.id("last-name");
     private final static By postalCode_by = By.id("postal-code");
 
-    public CheckoutPage(WebDriver driver, boolean openPageByUrl) {
+    public CheckoutCartPage(WebDriver driver, boolean openPageByUrl) {
         super(driver, openPageByUrl);
     }
 
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/cart.html");
+        driver.get("https://www.saucedemo.com/checkout-step-one.html");
     }
 
     public boolean isPageOpened() {

@@ -13,16 +13,16 @@ public class LoginStep extends BaseStep {
 
     public void login(String username, String password){
 
-        LoginPage loginPage = new LoginPage(driver, true);
+        LoginPage loginPage =LoginPage.createLoginPage(driver, true);
         loginPage.setUsername(username);
         loginPage.setPassword(password);
         loginPage.clickLoginButton();
     }
 
     public void login(){
-        ReadProperties properties = new ReadProperties();
+        ReadProperties properties = ReadProperties.createReadProperties();
 
-        LoginPage loginPage = new LoginPage(driver, true);
+        LoginPage loginPage = LoginPage.createLoginPage(driver, true);
         loginPage.setUsername(properties.getUsername());
         loginPage.setPassword(properties.getPassword());
         loginPage.clickLoginButton();
