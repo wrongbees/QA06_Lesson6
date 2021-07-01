@@ -29,7 +29,7 @@ public class SmokeTest extends BaseTest {
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login("standard", "secret");
 
-        Assert.assertEquals(LoginPage.createLoginPage(driver, false).getErrorLabel().getText(),
+        Assert.assertEquals(new LoginPage(driver, false).getErrorLabel().getText(),
                 "Epic sadface: Username and password do not match any user in this service");
 
     }
@@ -67,7 +67,7 @@ public class SmokeTest extends BaseTest {
         String[] userName = {"standard_user", "problem_user", "performance_glitch_user", "locked_out_user"};
 
         LoginStep loginStep = new LoginStep(driver);
-        LoginPage loginPage = LoginPage.createLoginPage(driver, true);
+        LoginPage loginPage =  new LoginPage(driver, true);
 
         for (String name : userName) {
             loginStep.login(name, properties.getPassword());

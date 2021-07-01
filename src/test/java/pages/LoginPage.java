@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LoginPage extends BasePage{
-    private static LoginPage loginPage;
+
 
     //Селекторы
     private final static By username_Input_By = By.id("user-name");
@@ -20,13 +20,8 @@ public class LoginPage extends BasePage{
 
 
     // Конструкторы
-    private LoginPage(WebDriver driver, boolean openPageByUrl) {
+    public LoginPage(WebDriver driver, boolean openPageByUrl) {
         super(driver, openPageByUrl);}
-
-    public static LoginPage createLoginPage(WebDriver driver, boolean openPageByUrl){
-        if (loginPage == null){ return loginPage =new LoginPage(driver, openPageByUrl);}
-        return loginPage;
-    }
 
 
     protected void openPage() {
