@@ -10,6 +10,8 @@ import pages.*;
 import steps.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class SmokeTest extends BaseTest {
@@ -142,6 +144,29 @@ public class SmokeTest extends BaseTest {
 
             Assert.assertTrue(result, "После сортировки [Price (high to low)] нужный порядок не достигнут");
         }
+
+    }
+
+    @Test
+    public void checkingTheItemInTheCartPositiveTest(){
+        //      product Names
+        //Sauce Labs Bolt T-Shirt
+        //Sauce Labs Fleece Jacket
+        //Sauce Labs Onesie
+        //Sauce Labs Bike Light
+        //Test.allTheThings() T-Shirt (Red)
+        //Sauce Labs Backpack
+        new LoginStep(driver).login();
+
+        OrderStep orderStep = new OrderStep(driver);
+        orderStep.orderOneProduct("Sauce Labs Bolt T-Shirt",
+                "Sauce Labs Onesie","Sauce Labs Backpack");
+        Map <String, String> productMap = orderStep.getAddedProduct();
+
+//        for (Map.Entry<String, String> product : productMap.entrySet()){
+//            System.out.print(product.getKey());
+//            System.out.println(product.getValue());
+//        }
 
     }
 

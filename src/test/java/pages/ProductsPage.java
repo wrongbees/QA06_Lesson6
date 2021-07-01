@@ -8,6 +8,8 @@ import java.util.List;
 
 
 public class ProductsPage extends BasePage {
+
+
     private final static String endpoint = "inventory.html";
 
     private final static By title_label_By = By.className("title");
@@ -29,6 +31,8 @@ public class ProductsPage extends BasePage {
     private final static By inventory_item_add_button = By.cssSelector(".btn_inventory");
     private final static By inventory_item_remove_button = By.cssSelector(".btn_secondary");
 
+    private final static String product_price_by_name =
+    "//*[text()='replace']/ancestor::div[@class = 'inventory_item_description']//div[@class = 'inventory_item_price']";
     private final static String product_addToCart_button =
             "//*[text()='replace']/ancestor::div[@class = 'inventory_item_description']//button";
 
@@ -132,9 +136,10 @@ public class ProductsPage extends BasePage {
         return driver.findElements(inventory_item_name).get(number).getText();
     }
 
-    // цена товара по элементу
-    public WebElement getInventory_price_name_by_number(int number) {
-        return driver.findElements(inventory_item_price).get(number);
+    // цена товара по имени
+    private WebElement getInventory_price_by_name(String name) {
+        return driver.findElement(By.xpath(product_price_by_name
+                .replace("replace",name)));
     }
 
     public void clickLogout() throws InterruptedException {
@@ -175,6 +180,10 @@ public class ProductsPage extends BasePage {
     // добавление товара в корзину
     public void addToCart(String productName){
         getAddToCartButton(productName).click();
+    }
+
+    public String getInventoryPrice(String productName){
+        return getInventory_price_by_name(productName).getText();
     }
 
 
