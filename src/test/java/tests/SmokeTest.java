@@ -69,7 +69,7 @@ public class SmokeTest extends BaseTest {
         String[] userName = {"standard_user", "problem_user", "performance_glitch_user", "locked_out_user"};
 
         LoginStep loginStep = new LoginStep(driver);
-        LoginPage loginPage =  new LoginPage(driver, true);
+        LoginPage loginPage = new LoginPage(driver, true);
 
         for (String name : userName) {
             loginStep.login(name, properties.getPassword());
@@ -148,7 +148,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void checkingTheItemInTheCartPositiveTest(){
+    public void checkingTheItemInTheCartPositiveTest() {
         //      product Names
         //Sauce Labs Bolt T-Shirt
         //Sauce Labs Fleece Jacket
@@ -160,21 +160,23 @@ public class SmokeTest extends BaseTest {
 
         OrderStep orderStep = new OrderStep(driver);
         orderStep.orderOneProduct("Sauce Labs Bolt T-Shirt",
-                "Sauce Labs Onesie","Sauce Labs Backpack");
-        Map <String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
+                "Sauce Labs Onesie", "Sauce Labs Backpack");
+        Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-        CartPage cartPage = CartPage.createCartPage(driver,true);
-       Map<String, String> productInTheCart =cartPage.getProductInTheCart(); // Мапа из корзины
+        CartPage cartPage = CartPage.createCartPage(driver, true);
+        Map<String, String> productInTheCart = cartPage.getProductInTheCart(); // Мапа из корзины
 
 
-        // Проверка на соответствия колличества
-       Assert.assertEquals(productInTheCart.size(),addedProducts.size(),
-               "Колличество выбранных продуктов не совпадаеьт с добавленными в Cart");
+        Assert.assertEquals(productInTheCart.size(), addedProducts.size(),
+                "Колличество выбранных продуктов не совпадает с добавленными в Cart");
 
-        for (Map.Entry<String, String> product : addedProducts.entrySet()){
-            Assert.assertEquals(productInTheCart.get("Test.allTheThings() T-Shirt (Red)"),product.getValue());
-           // Assert.assertEquals(productInTheCart.get(product.getKey()),product.getValue());
-            System.out.print(productInTheCart.get(product.getKey())+product.getValue());
+        for (Map.Entry<String, String> product : addedProducts.entrySet()) {
+
+            Assert.assertTrue(productInTheCart.containsKey(product.getKey()),
+                    "В Cart не обнаружен продукт " + product.getKey());
+
+            Assert.assertEquals(productInTheCart.get(product.getKey()), product.getValue(),
+                    "Не совпадает цена у продукта " + product.getKey());
 
         }
     }
