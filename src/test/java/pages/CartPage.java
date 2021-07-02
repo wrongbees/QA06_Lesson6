@@ -14,7 +14,7 @@ public class CartPage extends BasePage {
     private final static By button_continue_shopping_by = By.id("continue-shopping");
 
     private final static By cart_item_by = By.cssSelector(".cart_item");
-    private final static By product_name_by = By.cssSelector("inventory_item_name");
+    private final static By product_name_by = By.cssSelector(".inventory_item_name");
 
     private final static String product_price_by_name =
             "//*[text()='replace']/ancestor::div[@class = 'cart_item_label']//div[@class ='inventory_item_price']";

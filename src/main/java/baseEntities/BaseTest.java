@@ -15,7 +15,6 @@ public class BaseTest {
     protected ReadProperties properties;
 
 
-
     @BeforeTest
     public void setupTest(){
         //WebDriverManager.getInstance(DriverManagerType.CHROME).setup();
@@ -31,8 +30,10 @@ public class BaseTest {
 //    }
 
     @AfterTest
-   // @AfterMethod
+    // @AfterMethod
     public void tearDownMethod(){
         driver.quit();
     }
+
+
 }

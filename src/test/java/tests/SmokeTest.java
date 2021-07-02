@@ -161,13 +161,22 @@ public class SmokeTest extends BaseTest {
         OrderStep orderStep = new OrderStep(driver);
         orderStep.orderOneProduct("Sauce Labs Bolt T-Shirt",
                 "Sauce Labs Onesie","Sauce Labs Backpack");
-        Map <String, String> productMap = orderStep.getAddedProduct();
+        Map <String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-//        for (Map.Entry<String, String> product : productMap.entrySet()){
-//            System.out.print(product.getKey());
-//            System.out.println(product.getValue());
-//        }
+        CartPage cartPage = CartPage.createCartPage(driver,true);
+       Map<String, String> productInTheCart =cartPage.getProductInTheCart(); // Мапа из корзины
 
+
+        // Проверка на соответствия колличества
+       Assert.assertEquals(productInTheCart.size(),addedProducts.size(),
+               "Колличество выбранных продуктов не совпадаеьт с добавленными в Cart");
+
+        for (Map.Entry<String, String> product : addedProducts.entrySet()){
+            Assert.assertEquals(productInTheCart.get("Test.allTheThings() T-Shirt (Red)"),product.getValue());
+           // Assert.assertEquals(productInTheCart.get(product.getKey()),product.getValue());
+            System.out.print(productInTheCart.get(product.getKey())+product.getValue());
+
+        }
     }
 
 }
