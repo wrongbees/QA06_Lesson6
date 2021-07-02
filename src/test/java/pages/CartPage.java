@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.*;
 
 public class CartPage extends BasePage {
-    private static CartPage cartPage;
+
 
     private final static By button_checkout_by = By.id("checkout");
     private final static By button_continue_shopping_by = By.id("continue-shopping");
@@ -20,7 +20,7 @@ public class CartPage extends BasePage {
             "//*[text()='replace']/ancestor::div[@class = 'cart_item_label']//div[@class ='inventory_item_price']";
 
 
-    private CartPage(WebDriver driver, boolean openPageByUrl) {
+    public CartPage(WebDriver driver, boolean openPageByUrl) {
         super(driver, openPageByUrl);
     }
 
@@ -38,12 +38,7 @@ public class CartPage extends BasePage {
         }
     }
 
-    public static CartPage createCartPage(WebDriver driver, boolean openPageByUrl) {
-        if (cartPage == null) {
-            return new CartPage(driver, openPageByUrl);
-        }
-        return cartPage;
-    }
+
 
     public WebElement getCheckout() {
         return driver.findElement(button_checkout_by);

@@ -10,7 +10,7 @@ public class CartReadyForCheckingStep extends BaseStep {
     public CartReadyForCheckingStep(WebDriver driver) {
         super(driver);
 
-        CartPage.createCartPage(driver,false).clickCheckoutButton();
+        new CartPage(driver,false).clickCheckoutButton();
     }
 
 

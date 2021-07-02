@@ -163,7 +163,9 @@ public class SmokeTest extends BaseTest {
                 "Sauce Labs Onesie", "Sauce Labs Backpack");
         Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-        CartPage cartPage = CartPage.createCartPage(driver, true);
+        new ProductsPage(driver, false).clickShoppingCartLink();
+
+        CartPage cartPage = new CartPage(driver, false);
         Map<String, String> productInTheCart = cartPage.getProductInTheCart(); // Мапа из корзины
 
 
@@ -175,10 +177,63 @@ public class SmokeTest extends BaseTest {
             Assert.assertTrue(productInTheCart.containsKey(product.getKey()),
                     "В Cart не обнаружен продукт " + product.getKey());
 
+           // System.out.println(productInTheCart.get(product.getKey()));
+
             Assert.assertEquals(productInTheCart.get(product.getKey()), product.getValue(),
                     "Не совпадает цена у продукта " + product.getKey());
 
         }
     }
+    @Test
+    public void checkingTheProductOnTheCheckoutOverviewPageTest(){
+        //      product Names
+        //Sauce Labs Bolt T-Shirt
+        //Sauce Labs Fleece Jacket
+        //Sauce Labs Onesie
+        //Sauce Labs Bike Light
+        //Test.allTheThings() T-Shirt (Red)
+        //Sauce Labs Backpack
+        new LoginStep(driver).login();
+
+        OrderStep orderStep = new OrderStep(driver);
+        orderStep.orderOneProduct("Sauce Labs Bolt T-Shirt",
+                "Sauce Labs Onesie", "Sauce Labs Backpack");
+        Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
+
+        new ProductsPage(driver, false).clickShoppingCartLink();
+
+        new CartReadyForCheckingStep(driver);
+
+        new CheckoutPageStep(driver).checkoutContinue();
+
+         CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver, false);
+         Map<String,String> productsFromOverviewPage = checkoutOverviewPage.getProductInOverviewPage();
+
+        Assert.assertEquals(productsFromOverviewPage.size(), addedProducts.size(),
+                "Колличество выбранных продуктов не совпадает с добавленными в OverviewPage");
+
+        for (Map.Entry<String, String> product : addedProducts.entrySet()) {
+
+            Assert.assertTrue(productsFromOverviewPage.containsKey(product.getKey()),
+                    "В OverviewPage не обнаружен продукт " + product.getKey());
+
+            Assert.assertEquals(productsFromOverviewPage.get(product.getKey()), product.getValue(),
+                    "Не совпадает цена у продукта " + product.getKey());
+
+        }
+
+        double expectedItemTotal = 0;
+        for (Map.Entry<String, String> product : addedProducts.entrySet()) {
+            expectedItemTotal += Double.parseDouble(product.getValue().replace("$",""));
+
+        }
+
+        double actualItemTotal = Double.parseDouble(checkoutOverviewPage.getSummarySubtotal());
+
+        Assert.assertEquals(actualItemTotal,expectedItemTotal,"Item Total не совпадает с расчетной");
+
+
+    }
+
 
 }
