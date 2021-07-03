@@ -11,12 +11,12 @@ import steps.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 
 public class SmokeTest extends BaseTest {
     @Test
-    public void positiveLoginTest() {
+    public void positiveLoginTest() throws InterruptedException {
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login(properties.getUsername(), properties.getPassword());
 
@@ -26,7 +26,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void negativeLoginTests() {
+    public void negativeLoginTests() throws InterruptedException {
 
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login("standard", "secret");
@@ -37,7 +37,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void positiveTestForAddingAnItemToTheCart() {
+    public void positiveTestForAddingAnItemToTheCart() throws InterruptedException {
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login();
 
@@ -91,7 +91,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void positivePaymentVerificationTest() {
+    public void positivePaymentVerificationTest() throws InterruptedException {
 
         new LoginStep(driver).login();
 
@@ -113,7 +113,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void positiveSortingGoodsByName_ZATest() {
+    public void positiveSortingGoodsByName_ZATest() throws InterruptedException {
         new LoginStep(driver).login();
 
         ProductsPage page = new ProductsPage(driver, false);
@@ -128,7 +128,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void positiveSortingGoodsByPrice_HiLoTest() {
+    public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
         new LoginStep(driver).login();
 
         ProductsPage page = new ProductsPage(driver, false);
@@ -148,7 +148,7 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void checkingTheItemInTheCartPositiveTest() {
+    public void checkingTheItemInTheCartPositiveTest() throws InterruptedException {
         //      product Names
         //Sauce Labs Bolt T-Shirt
         //Sauce Labs Fleece Jacket
@@ -185,7 +185,7 @@ public class SmokeTest extends BaseTest {
         }
     }
     @Test
-    public void checkingTheProductOnTheCheckoutOverviewPageTest(){
+    public void checkingTheProductOnTheCheckoutOverviewPageTest() throws InterruptedException {
         //      product Names
         //Sauce Labs Bolt T-Shirt
         //Sauce Labs Fleece Jacket
@@ -196,8 +196,8 @@ public class SmokeTest extends BaseTest {
         new LoginStep(driver).login();
 
         OrderStep orderStep = new OrderStep(driver);
-        orderStep.orderOneProduct("Sauce Labs Bolt T-Shirt",
-                "Sauce Labs Onesie", "Sauce Labs Backpack");
+        orderStep.orderOneProduct("Sauce Labs Bike Light",
+                "Sauce Labs Fleece Jacket");
         Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
         new ProductsPage(driver, false).clickShoppingCartLink();
@@ -208,6 +208,9 @@ public class SmokeTest extends BaseTest {
 
          CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver, false);
          Map<String,String> productsFromOverviewPage = checkoutOverviewPage.getProductInOverviewPage();
+
+         for (Map.Entry<String,String> item : productsFromOverviewPage.entrySet())//
+             System.out.println(item.getKey());                                   //
 
         Assert.assertEquals(productsFromOverviewPage.size(), addedProducts.size(),
                 "Колличество выбранных продуктов не совпадает с добавленными в OverviewPage");
@@ -222,15 +225,21 @@ public class SmokeTest extends BaseTest {
 
         }
 
-        double expectedItemTotal = 0;
+        float expectedItemTotal = 0;
         for (Map.Entry<String, String> product : addedProducts.entrySet()) {
-            expectedItemTotal += Double.parseDouble(product.getValue().replace("$",""));
+            expectedItemTotal += Float.parseFloat(product.getValue().replace("$",""));
 
         }
 
-        double actualItemTotal = Double.parseDouble(checkoutOverviewPage.getSummarySubtotal());
+        float actualItemTotal = Float.parseFloat(checkoutOverviewPage.getSummarySubtotal());
 
         Assert.assertEquals(actualItemTotal,expectedItemTotal,"Item Total не совпадает с расчетной");
+
+        float tax = Float.parseFloat(checkoutOverviewPage.getTaxLabel());
+        float actualTotal = Float.parseFloat(checkoutOverviewPage.getTotalLabel());
+        float expectedTotal = expectedItemTotal + tax;
+
+        Assert.assertEquals(actualTotal, expectedTotal, "Сумма к оплате Total рассчитана неверно");
 
 
     }

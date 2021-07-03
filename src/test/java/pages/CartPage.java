@@ -20,7 +20,7 @@ public class CartPage extends BasePage {
             "//*[text()='replace']/ancestor::div[@class = 'cart_item_label']//div[@class ='inventory_item_price']";
 
 
-    public CartPage(WebDriver driver, boolean openPageByUrl) {
+    public CartPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
     }
 

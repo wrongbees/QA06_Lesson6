@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class CheckoutPageStep extends BaseStep {
 
-    public CheckoutPageStep(WebDriver driver) {
+    public CheckoutPageStep(WebDriver driver) throws InterruptedException {
         super(driver);
     }
 

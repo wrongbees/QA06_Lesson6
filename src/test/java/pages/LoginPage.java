@@ -20,7 +20,7 @@ public class LoginPage extends BasePage{
 
 
     // Конструкторы
-    public LoginPage(WebDriver driver, boolean openPageByUrl) {
+    public LoginPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);}
 
 

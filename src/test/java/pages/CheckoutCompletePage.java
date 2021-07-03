@@ -11,7 +11,7 @@ public class CheckoutCompletePage extends BasePage {
     private final static By title_label_by = By.cssSelector(".title");
     private final static By back_home_button_by = By.id("back-to-products");
 
-    public CheckoutCompletePage(WebDriver driver, boolean openPageByUrl) {
+    public CheckoutCompletePage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
     }
 

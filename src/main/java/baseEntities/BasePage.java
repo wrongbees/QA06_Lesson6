@@ -10,9 +10,9 @@ public abstract class BasePage {
 
 
     protected abstract void openPage();
-    public abstract boolean isPageOpened();
+    public abstract boolean isPageOpened() throws InterruptedException;
 
-    public BasePage(WebDriver driver, boolean openPageByUrl) {
+    public BasePage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         this.driver = driver;
         properties = ReadProperties.createReadProperties();
 
@@ -23,7 +23,7 @@ public abstract class BasePage {
         waitForOpen();
     }
 
-    protected void waitForOpen() {
+    protected void waitForOpen() throws InterruptedException {
         int secondsCount = 0;
         boolean isPageOpenedIndicator = isPageOpened();
 

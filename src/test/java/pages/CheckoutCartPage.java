@@ -13,7 +13,7 @@ public class CheckoutCartPage extends BasePage {
     private final static By lastName_by = By.id("last-name");
     private final static By postalCode_by = By.id("postal-code");
 
-    public CheckoutCartPage(WebDriver driver, boolean openPageByUrl) {
+    public CheckoutCartPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
     }
 

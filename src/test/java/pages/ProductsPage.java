@@ -36,7 +36,7 @@ public class ProductsPage extends BasePage {
     private final static String product_addToCart_button =
             "//*[text()='replace']/ancestor::div[@class = 'inventory_item_description']//button";
 
-    public ProductsPage(WebDriver driver, boolean openPageByUrl) {
+    public ProductsPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
     }
 

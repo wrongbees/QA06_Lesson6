@@ -13,7 +13,7 @@ public class OrderStep extends BaseStep {
         super(driver);
     }
 
-    public void orderOneProduct(String... productNames) {
+    public void orderOneProduct(String... productNames) throws InterruptedException {
         ProductsPage productsPage = new ProductsPage(driver, true);
 
         for (String name : productNames) {

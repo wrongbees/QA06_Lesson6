@@ -11,7 +11,7 @@ public class LoginStep extends BaseStep {
         super(driver);
     }
 
-    public void login(String username, String password){
+    public void login(String username, String password) throws InterruptedException {
 
 
         LoginPage loginPage =new LoginPage(driver, true);
@@ -20,7 +20,7 @@ public class LoginStep extends BaseStep {
         loginPage.clickLoginButton();
     }
 
-    public void login(){
+    public void login() throws InterruptedException {
         ReadProperties properties = ReadProperties.createReadProperties();
         LoginPage loginPage =new LoginPage(driver, true);
 

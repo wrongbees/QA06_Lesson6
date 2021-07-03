@@ -18,12 +18,13 @@ public class CheckoutOverviewPage extends BasePage {
     private final static By product_name_by = By.cssSelector(".inventory_item_name");
     private final static By summary_subtotal_label = By.cssSelector(".summary_subtotal_label");
     private final static By summary_total_label = By.cssSelector(".summary_total_label");
+    private final static By summary_tax_label = By.cssSelector((".summary_tax_label"));
 
     private final static String product_price_by_name =
             "//*[text()='replace']/ancestor::div[@class='cart_item_label']//div[@class='inventory_item_price']";
 
 
-    public CheckoutOverviewPage(WebDriver driver, boolean openPageByUrl) {
+    public CheckoutOverviewPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
     }
 
@@ -31,11 +32,13 @@ public class CheckoutOverviewPage extends BasePage {
         driver.get("https://www.saucedemo.com/checkout-step-two.html");
     }
 
-    public boolean isPageOpened() {
+    public boolean isPageOpened() throws InterruptedException {
         try {
-            return getFinishButton().isDisplayed();
+            Thread.sleep(3000);
+            return get_Summary_Subtotal().isDisplayed();
 
         } catch (NoSuchElementException e) {
+
             return false;
         }
     }
@@ -64,12 +67,17 @@ public class CheckoutOverviewPage extends BasePage {
         getCancelButton().click();
     }
 
+    public WebElement get_Summary_Subtotal(){ return driver.findElement(summary_subtotal_label);}
+
     public String getSummarySubtotal() {
         return driver.findElement(summary_subtotal_label).getText().replace("Item total: $", "");
     }
 
-    public String getSummaryTotalLabel() {
+    public String getTotalLabel() {
         return driver.findElement(summary_total_label).getText().replace("Total: $","");
+    }
+    public String getTaxLabel() {
+        return driver.findElement(summary_tax_label).getText().replace("Tax: $","");
     }
 
 
