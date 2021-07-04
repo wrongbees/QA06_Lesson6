@@ -9,6 +9,7 @@ import java.util.*;
 
 public class CartPage extends BasePage {
 
+    private final static String endpoint = "cart.html";
 
     private final static By button_checkout_by = By.id("checkout");
     private final static By button_continue_shopping_by = By.id("continue-shopping");
@@ -25,7 +26,7 @@ public class CartPage extends BasePage {
     }
 
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/cart.html");
+        driver.get(properties.getURL()+endpoint);
     }
 
     public boolean isPageOpened() {

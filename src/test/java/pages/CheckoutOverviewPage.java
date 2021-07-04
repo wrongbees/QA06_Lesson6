@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class CheckoutOverviewPage extends BasePage {
 
+    private final static String endpoint ="checkout-step-two.html";
     private final static By finish_button_by = By.id("finish");
     private final static By cancel_button_by = By.id("cancel");
     private final static By title_label_by = By.cssSelector(".label");
@@ -29,12 +30,13 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/checkout-step-two.html");
+        driver.get(properties.getURL()+endpoint);
+
     }
 
-    public boolean isPageOpened() throws InterruptedException {
+    public boolean isPageOpened() {
         try {
-            Thread.sleep(3000);
+
             return get_Summary_Subtotal().isDisplayed();
 
         } catch (NoSuchElementException e) {

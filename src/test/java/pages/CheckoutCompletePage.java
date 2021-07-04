@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 
 public class CheckoutCompletePage extends BasePage {
 
+    private final static String endpoint ="checkout-complete.html";
+
     private final static By title_label_by = By.cssSelector(".title");
     private final static By back_home_button_by = By.id("back-to-products");
 
@@ -16,7 +18,8 @@ public class CheckoutCompletePage extends BasePage {
     }
 
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/checkout-complete.html");
+        driver.get(properties.getURL()+endpoint);
+
     }
 
     public boolean isPageOpened() {

@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 
 public class CheckoutCartPage extends BasePage {
 
+    private final static String endpoint ="checkout-step-one.html";
+
     private final static By button_continue = By.id("continue");
     private final static By firstName_by = By.id("first-name");
     private final static By lastName_by = By.id("last-name");
@@ -18,7 +20,8 @@ public class CheckoutCartPage extends BasePage {
     }
 
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/checkout-step-one.html");
+        driver.get(properties.getURL()+endpoint);
+
     }
 
     public boolean isPageOpened() {

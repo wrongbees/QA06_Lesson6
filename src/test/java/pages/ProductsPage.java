@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public class ProductsPage extends BasePage {
-
+    private static ProductsPage page;
 
     private final static String endpoint = "inventory.html";
 
@@ -16,6 +16,7 @@ public class ProductsPage extends BasePage {
     // элементы верхнего левого меню
     private final static By burger_menu_btn = By.id("react-burger-menu-btn");
     private final static By logout = By.id("logout_sidebar_link");
+    private final static By reset = By.id("reset_sidebar_link");
     // кнопка корзины
     private final static By shopping_cart_button = By.cssSelector(".shopping_cart_link");
     private final static By shopping_cart_badge_message = By.cssSelector(" .shopping_cart_badge");
@@ -36,8 +37,13 @@ public class ProductsPage extends BasePage {
     private final static String product_addToCart_button =
             "//*[text()='replace']/ancestor::div[@class = 'inventory_item_description']//button";
 
-    public ProductsPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
+    private ProductsPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
+    }
+
+    public static ProductsPage createProductPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
+        if (page == null){ return new ProductsPage(driver, openPageByUrl);}
+        return page;
     }
 
 
@@ -104,6 +110,10 @@ public class ProductsPage extends BasePage {
         return driver.findElement(logout);
     }
 
+    public WebElement getReset() {
+        return driver.findElement(reset);
+    }
+
     // Возвращаем лист кнопок товара
     public List<WebElement> get_add_button_list() {
         return driver.findElements(inventory_item_add_button);
@@ -148,6 +158,19 @@ public class ProductsPage extends BasePage {
         while (true || (time < 5)) {
             try {
                 getLogout().click();
+                return;
+            } catch (ElementNotInteractableException e) {
+                Thread.sleep(1000);
+                time++;
+            }
+        }
+    }
+    public void clickReset() throws InterruptedException {
+        getBurger_menu_btn().click();
+        int time = 0;
+        while (true || (time < 5)) {
+            try {
+                getReset().click();
                 return;
             } catch (ElementNotInteractableException e) {
                 Thread.sleep(1000);

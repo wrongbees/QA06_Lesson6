@@ -13,8 +13,9 @@ public class OrderStep extends BaseStep {
         super(driver);
     }
 
-    public void orderOneProduct(String... productNames) throws InterruptedException {
-        ProductsPage productsPage = new ProductsPage(driver, true);
+    public void orderProducts(String... productNames) throws InterruptedException {
+        ProductsPage productsPage = ProductsPage.createProductPage(driver, true);
+        productsPage.clickReset();
 
         for (String name : productNames) {
 
@@ -22,6 +23,7 @@ public class OrderStep extends BaseStep {
             productMap.put(name, productsPage.getInventoryPrice(name));
 
         }
+
     }
     public Map<String, String> getAddedProduct(){
         return productMap;
