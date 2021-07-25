@@ -18,7 +18,7 @@ public class SmokeTest extends BaseTest {
     @Link(value = "www.saucedemo.com", url ="https://www.saucedemo.com/")
     @Description("Вход на https://www.saucedemo.com/")
     @Severity(SeverityLevel.BLOCKER)
-    @Test
+    @Test(description = "Вход на https://www.saucedemo.com/")
     public void positiveLoginTest() throws InterruptedException {
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login(properties.getUsername(), properties.getPassword());
@@ -73,7 +73,7 @@ public class SmokeTest extends BaseTest {
 
     @TmsLink("1")
     @Issue("11")
-    @Test
+    @Test(description = "Проверка логирования различными userNames")
     public void positiveAcceptedUsernameTest() throws InterruptedException {
         String[] userName = {"standard_user", "problem_user", "performance_glitch_user", "locked_out_user"};
 
@@ -101,7 +101,7 @@ public class SmokeTest extends BaseTest {
 
     @Severity(SeverityLevel.CRITICAL)
     @Description("Проверка функции оплты")
-    @Test
+    @Test(description = "Проверка функции оплты")
     public void positivePaymentVerificationTest() throws InterruptedException {
 
         new LoginStep(driver).login();
@@ -130,7 +130,7 @@ public class SmokeTest extends BaseTest {
     @Feature("SortingGoodsByName_ZA")
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка на сортировку продуктов по названию")
-    @Test
+    @Test(description = "Проверка на сортировку продуктов по названию")
     public void positiveSortingGoodsByName_ZATest() throws InterruptedException {
         new LoginStep(driver).login();
 
@@ -148,7 +148,7 @@ public class SmokeTest extends BaseTest {
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка на сортировку продуктов по цене")
 
-    @Test
+    @Test(description = "Проверка на сортировку продуктов по цене")
     public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
         new LoginStep(driver).login();
 
@@ -169,7 +169,7 @@ public class SmokeTest extends BaseTest {
     }
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка соответствия выбираемых продуктов, продуктам, отображаемым в корзине")
-    @Test
+    @Test(description = "Проверка соответствия выбираемых продуктов, продуктам, отображаемым в корзине")
     public void checkingTheItemInTheCartPositiveTest() throws InterruptedException {
         //      product Names
         //Sauce Labs Bolt T-Shirt
@@ -178,7 +178,8 @@ public class SmokeTest extends BaseTest {
         //Sauce Labs Bike Light
         //Test.allTheThings() T-Shirt (Red)
         //Sauce Labs Backpack
-        new LoginStep(driver).login();
+        LoginStep loginStep = new LoginStep(driver);
+        loginStep.login();
 
         OrderStep orderStep = new OrderStep(driver);
         orderStep.orderProducts("Sauce Labs Bolt T-Shirt",
@@ -207,7 +208,7 @@ public class SmokeTest extends BaseTest {
     }
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка правильного отображения информации перед оплатой")
-    @Test
+    @Test(description = "Проверка правильного отображения информации перед оплатой")
     public void checkingTheProductOnTheCheckoutOverviewPageTest() throws InterruptedException {
         //      product Names
         //Sauce Labs Bolt T-Shirt
@@ -216,7 +217,8 @@ public class SmokeTest extends BaseTest {
         //Sauce Labs Bike Light
         //Test.allTheThings() T-Shirt (Red)
         //Sauce Labs Backpack
-        new LoginStep(driver).login();
+        LoginStep loginStep = new LoginStep(driver);
+        loginStep.login();
 
         OrderStep orderStep = new OrderStep(driver);
         orderStep.orderProducts("Sauce Labs Bike Light",
@@ -233,9 +235,6 @@ public class SmokeTest extends BaseTest {
 
         CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver, false);
         Map<String, String> productsFromOverviewPage = checkoutOverviewPage.getProductInOverviewPage();
-
-        // for (Map.Entry<String,String> item : productsFromOverviewPage.entrySet())//
-        //     System.out.println(item.getKey());                                   //
 
         Assert.assertEquals(productsFromOverviewPage.size(), addedProducts.size(),
                 "Колличество выбранных продуктов не совпадает с добавленными в OverviewPage");
