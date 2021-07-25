@@ -1,6 +1,7 @@
 package steps;
 
 import baseEntities.BaseStep;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.ProductsPage;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class OrderStep extends BaseStep {
         super(driver);
     }
 
+    @Step("Формируем заказ")
     public void orderProducts(String... productNames) throws InterruptedException {
         ProductsPage productsPage = ProductsPage.createProductPage(driver, true);
         productsPage.clickReset();
@@ -25,6 +27,8 @@ public class OrderStep extends BaseStep {
         }
 
     }
+
+    @Step("Возвращаем Map из заказанных продуктов")
     public Map<String, String> getAddedProduct(){
         return productMap;
     }

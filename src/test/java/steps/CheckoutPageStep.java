@@ -2,6 +2,7 @@ package steps;
 
 import baseEntities.BaseStep;
 import core.ReadProperties;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.CheckoutCartPage;
 
@@ -16,6 +17,7 @@ public class CheckoutPageStep extends BaseStep {
     ReadProperties properties = ReadProperties.createReadProperties();
     CheckoutCartPage checkoutCartPage = new CheckoutCartPage(driver,false);
 
+@Step("Ввод информации о пользователе")
     public void checkoutContinue(){
         checkoutCartPage.setFirstName(properties.getFirstName());
         checkoutCartPage.setLastName(properties.getLastName());
@@ -23,8 +25,8 @@ public class CheckoutPageStep extends BaseStep {
         checkoutCartPage.clickContinue();
     }
 
-    public void checkoutContinue(String firstNaame, String LastName, String Zip){
-        checkoutCartPage.setFirstName(firstNaame);
+    public void checkoutContinue(String firstName, String LastName, String Zip){
+        checkoutCartPage.setFirstName(firstName);
         checkoutCartPage.setLastName(LastName);
         checkoutCartPage.setPostalCode(Zip);
         checkoutCartPage.clickContinue();

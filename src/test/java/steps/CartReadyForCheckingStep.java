@@ -1,17 +1,22 @@
 package steps;
 
 import baseEntities.BaseStep;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.CartPage;
 
 
 public class CartReadyForCheckingStep extends BaseStep {
 
-    public CartReadyForCheckingStep(WebDriver driver) throws InterruptedException {
+    public CartReadyForCheckingStep(WebDriver driver) {
         super(driver);
 
-        new CartPage(driver,false).clickCheckoutButton();
+
     }
 
 
+    @Step("Нажимаем кнопку CheckoutButton")
+    public void clickCheckoutButton() throws InterruptedException {
+        new CartPage(driver,false).clickCheckoutButton();
+    }
 }

@@ -1,7 +1,7 @@
 package tests;
 
 import baseEntities.BaseTest;
-
+import io.qameta.allure.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -13,8 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 
-
 public class SmokeTest extends BaseTest {
+
+    @Link(value = "www.saucedemo.com", url ="https://www.saucedemo.com/")
+    @Description("Вход на https://www.saucedemo.com/")
+    @Severity(SeverityLevel.BLOCKER)
     @Test
     public void positiveLoginTest() throws InterruptedException {
         LoginStep loginStep = new LoginStep(driver);
@@ -25,7 +28,10 @@ public class SmokeTest extends BaseTest {
 
     }
 
+    @Link(name = "kontakty/", type = "my link")
+    @Severity(SeverityLevel.MINOR)
     @Test
+
     public void negativeLoginTests() throws InterruptedException {
 
         LoginStep loginStep = new LoginStep(driver);
@@ -35,13 +41,14 @@ public class SmokeTest extends BaseTest {
                 "Epic sadface: Username and password do not match any user in this service");
 
     }
-
-    @Test
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Негативный вход на https://www.saucedemo.com/")
+    @Test(description = "Негативный вход на https://www.saucedemo.com/")
     public void positiveTestForAddingAnItemToTheCart() throws InterruptedException {
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login();
 
-        ProductsPage page =ProductsPage.createProductPage(driver, false);
+        ProductsPage page = ProductsPage.createProductPage(driver, false);
 
         for (int i = 0; i <= 5; i++) {
             page.clickInventory_item_add_button_by_number(i);
@@ -64,6 +71,8 @@ public class SmokeTest extends BaseTest {
         Assert.assertFalse(isDisplayed);
     }
 
+    @TmsLink("1")
+    @Issue("11")
     @Test
     public void positiveAcceptedUsernameTest() throws InterruptedException {
         String[] userName = {"standard_user", "problem_user", "performance_glitch_user", "locked_out_user"};
@@ -90,6 +99,8 @@ public class SmokeTest extends BaseTest {
         }
     }
 
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Проверка функции оплты")
     @Test
     public void positivePaymentVerificationTest() throws InterruptedException {
 
@@ -98,20 +109,27 @@ public class SmokeTest extends BaseTest {
         ProductsPage page = ProductsPage.createProductPage(driver, false);
 
         String inventoryName = page.getInventory_item_name_by_number(2);
-        new OrderStep(driver).orderProducts(inventoryName);
+
+        OrderStep orderStep = new OrderStep(driver);
+        orderStep.orderProducts(inventoryName);
 
         page.clickShoppingCartLink();
 
-        new CartReadyForCheckingStep(driver);
+        CartReadyForCheckingStep crfc = new CartReadyForCheckingStep(driver);
+        crfc.clickCheckoutButton();
 
-        new CheckoutPageStep(driver).checkoutContinue();
+         CheckoutPageStep checkoutPageStep = new CheckoutPageStep(driver);
+         checkoutPageStep.checkoutContinue();
 
-        new CheckoutOverviewPageFinishStep(driver);
+        CheckoutOverviewPageFinishStep checkoutOverviewPageFinishStep = new CheckoutOverviewPageFinishStep(driver);
+        checkoutOverviewPageFinishStep.clickFinishButton();
 
         Assert.assertTrue(new CheckoutCompletePage(driver, false).getTitleLabel().isDisplayed());
 
     }
-
+    @Feature("SortingGoodsByName_ZA")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Проверка на сортировку продуктов по названию")
     @Test
     public void positiveSortingGoodsByName_ZATest() throws InterruptedException {
         new LoginStep(driver).login();
@@ -126,6 +144,9 @@ public class SmokeTest extends BaseTest {
         }
 
     }
+    @Feature("SortingGoodsByPrice_HiLo")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Проверка на сортировку продуктов по цене")
 
     @Test
     public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
@@ -146,7 +167,8 @@ public class SmokeTest extends BaseTest {
         }
 
     }
-
+    @Severity(SeverityLevel.MINOR)
+    @Description("Проверка соответствия выбираемых продуктов, продуктам, отображаемым в корзине")
     @Test
     public void checkingTheItemInTheCartPositiveTest() throws InterruptedException {
         //      product Names
@@ -177,13 +199,14 @@ public class SmokeTest extends BaseTest {
             Assert.assertTrue(productInTheCart.containsKey(product.getKey()),
                     "В Cart не обнаружен продукт " + product.getKey());
 
-           // System.out.println(productInTheCart.get(product.getKey()));
 
             Assert.assertEquals(productInTheCart.get(product.getKey()), product.getValue(),
                     "Не совпадает цена у продукта " + product.getKey());
 
         }
     }
+    @Severity(SeverityLevel.MINOR)
+    @Description("Проверка правильного отображения информации перед оплатой")
     @Test
     public void checkingTheProductOnTheCheckoutOverviewPageTest() throws InterruptedException {
         //      product Names
@@ -202,12 +225,14 @@ public class SmokeTest extends BaseTest {
 
         ProductsPage.createProductPage(driver, false).clickShoppingCartLink();
 
-        new CartReadyForCheckingStep(driver);
+        CartReadyForCheckingStep cartReadyForCheckingStep = new CartReadyForCheckingStep(driver);
+        cartReadyForCheckingStep.clickCheckoutButton();
 
-        new CheckoutPageStep(driver).checkoutContinue();
+        CheckoutPageStep checkoutPageStep = new CheckoutPageStep(driver);
+        checkoutPageStep.checkoutContinue();
 
-         CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver, false);
-         Map<String,String> productsFromOverviewPage = checkoutOverviewPage.getProductInOverviewPage();
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver, false);
+        Map<String, String> productsFromOverviewPage = checkoutOverviewPage.getProductInOverviewPage();
 
         // for (Map.Entry<String,String> item : productsFromOverviewPage.entrySet())//
         //     System.out.println(item.getKey());                                   //
@@ -227,13 +252,13 @@ public class SmokeTest extends BaseTest {
 
         float expectedItemTotal = 0;
         for (Map.Entry<String, String> product : addedProducts.entrySet()) {
-            expectedItemTotal += Float.parseFloat(product.getValue().replace("$",""));
+            expectedItemTotal += Float.parseFloat(product.getValue().replace("$", ""));
 
         }
 
         float actualItemTotal = Float.parseFloat(checkoutOverviewPage.getSummarySubtotal());
 
-        Assert.assertEquals(actualItemTotal,expectedItemTotal,"Item Total не совпадает с расчетной");
+        Assert.assertEquals(actualItemTotal, expectedItemTotal, "Item Total не совпадает с расчетной");
 
         float tax = Float.parseFloat(checkoutOverviewPage.getTaxLabel());
         float actualTotal = Float.parseFloat(checkoutOverviewPage.getTotalLabel());
