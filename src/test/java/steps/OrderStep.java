@@ -16,7 +16,7 @@ public class OrderStep extends BaseStep {
 
     @Step("Формируем заказ")
     public void orderProducts(String... productNames) throws InterruptedException {
-        ProductsPage productsPage = ProductsPage.createProductPage(driver, true);
+        ProductsPage productsPage = new ProductsPage(driver, true);
         productsPage.clickReset();
 
         for (String name : productNames) {

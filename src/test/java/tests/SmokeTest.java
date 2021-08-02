@@ -23,7 +23,7 @@ public class SmokeTest extends BaseTest {
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login(properties.getUsername(), properties.getPassword());
 
-        ProductsPage page = ProductsPage.createProductPage(driver, false);
+        ProductsPage page =new ProductsPage(driver, false);
         Assert.assertEquals(page.getTitleText(), "PRODUCTS", "Страница Products не открылась");
 
     }
@@ -48,7 +48,7 @@ public class SmokeTest extends BaseTest {
         LoginStep loginStep = new LoginStep(driver);
         loginStep.login();
 
-        ProductsPage page = ProductsPage.createProductPage(driver, false);
+        ProductsPage page = new ProductsPage(driver, false);
 
         for (int i = 0; i <= 5; i++) {
             page.clickInventory_item_add_button_by_number(i);
@@ -91,7 +91,7 @@ public class SmokeTest extends BaseTest {
 
             } catch (NoSuchElementException e) {
 
-                ProductsPage products = ProductsPage.createProductPage(driver, false);
+                ProductsPage products = new ProductsPage(driver, false);
 
                 products.clickLogout();
 
@@ -106,7 +106,7 @@ public class SmokeTest extends BaseTest {
 
         new LoginStep(driver).login();
 
-        ProductsPage page = ProductsPage.createProductPage(driver, false);
+        ProductsPage page = new ProductsPage(driver, false);
 
         String inventoryName = page.getInventory_item_name_by_number(2);
 
@@ -134,7 +134,7 @@ public class SmokeTest extends BaseTest {
     public void positiveSortingGoodsByName_ZATest() throws InterruptedException {
         new LoginStep(driver).login();
 
-        ProductsPage page = ProductsPage.createProductPage(driver, false);
+        ProductsPage page = new ProductsPage(driver, false);
         page.clickSortByName_za();
 
         List<WebElement> listItemName = page.getInventoryItemNamesList();
@@ -152,7 +152,7 @@ public class SmokeTest extends BaseTest {
     public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
         new LoginStep(driver).login();
 
-        ProductsPage page = ProductsPage.createProductPage(driver, false);
+        ProductsPage page = new ProductsPage(driver, false);
         page.clickSortByPrice_hilo();
 
 
@@ -186,7 +186,8 @@ public class SmokeTest extends BaseTest {
                 "Sauce Labs Onesie", "Sauce Labs Backpack");
         Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-        ProductsPage.createProductPage(driver, false).clickShoppingCartLink();
+        ProductsPage productsPage = new ProductsPage(driver, false);
+        productsPage.clickShoppingCartLink();
 
         CartPage cartPage = new CartPage(driver, false);
         Map<String, String> productInTheCart = cartPage.getProductInTheCart(); // Мапа из корзины
@@ -225,7 +226,8 @@ public class SmokeTest extends BaseTest {
                 "Sauce Labs Fleece Jacket");
         Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-        ProductsPage.createProductPage(driver, false).clickShoppingCartLink();
+        ProductsPage productsPage = new ProductsPage(driver, false);
+        productsPage.clickShoppingCartLink();
 
         CartReadyForCheckingStep cartReadyForCheckingStep = new CartReadyForCheckingStep(driver);
         cartReadyForCheckingStep.clickCheckoutButton();

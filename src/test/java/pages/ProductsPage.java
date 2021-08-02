@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public class ProductsPage extends BasePage {
-    private static ProductsPage page;
+   // private static ProductsPage page;
 
     private final static String endpoint = "inventory.html";
 
@@ -37,14 +37,14 @@ public class ProductsPage extends BasePage {
     private final static String product_addToCart_button =
             "//*[text()='replace']/ancestor::div[@class = 'inventory_item_description']//button";
 
-    private ProductsPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
+    public ProductsPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
     }
 
-    public static ProductsPage createProductPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
-        if (page == null){ return new ProductsPage(driver, openPageByUrl);}
-        return page;
-    }
+//    public static ProductsPage createProductPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
+//        if (page == null){ return new ProductsPage(driver, openPageByUrl);}
+//        return page;
+//    }
 
 
     protected void openPage() {
