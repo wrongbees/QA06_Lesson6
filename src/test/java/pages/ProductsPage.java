@@ -8,7 +8,6 @@ import java.util.List;
 
 
 public class ProductsPage extends BasePage {
-   // private static ProductsPage page;
 
     private final static String endpoint = "inventory.html";
 

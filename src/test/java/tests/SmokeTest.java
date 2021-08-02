@@ -84,7 +84,7 @@ public class SmokeTest extends BaseTest {
             loginStep.login(name, properties.getPassword());
 
             try {
-                loginPage.getLoginPageImage();
+                loginPage.loginButton.isDisplayed();
 
                 System.out.println("User_name " + name + " не подходит.");
                 throw new AssertionError();

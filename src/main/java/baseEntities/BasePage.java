@@ -2,6 +2,7 @@ package baseEntities;
 
 import core.ReadProperties;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
 public abstract class BasePage {
     protected static final int WAIT_FOR_PAGE_LOADING_SEC = 15;
@@ -15,6 +16,7 @@ public abstract class BasePage {
     public BasePage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         this.driver = driver;
         properties = ReadProperties.createReadProperties();
+        PageFactory.initElements(this.driver, this);
 
         if (openPageByUrl) {
             openPage();
