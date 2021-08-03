@@ -4,6 +4,7 @@ import baseEntities.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.*;
 
@@ -15,7 +16,10 @@ public class CartPage extends BasePage {
     private final static By button_continue_shopping_by = By.id("continue-shopping");
 
     private final static By cart_item_by = By.cssSelector(".cart_item");
-    private final static By product_name_by = By.cssSelector(".inventory_item_name");
+
+    @FindBy(css = ".inventory_item_name")
+    public List<WebElement> productNameList;
+
 
     private final static String product_price_by_name =
             "//*[text()='replace']/ancestor::div[@class = 'cart_item_label']//div[@class ='inventory_item_price']";
@@ -53,9 +57,6 @@ public class CartPage extends BasePage {
         return driver.findElement(button_continue_shopping_by);
     }
 
-    public List<WebElement> getProductNameList() {
-        return driver.findElements(product_name_by);
-    }
 
 
     public void clickCheckoutButton() {
@@ -73,7 +74,7 @@ public class CartPage extends BasePage {
     public Map<String, String> getProductInTheCart() {
 
         Map<String, String> productsInTheCart = new HashMap<>();
-        List<WebElement> productList = getProductNameList();
+        List<WebElement> productList =  productNameList;
 
         for (WebElement item : productList) {
             productsInTheCart.put(item.getText(), getProductPriceByName(item.getText()));
