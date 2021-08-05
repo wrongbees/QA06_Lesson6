@@ -3,6 +3,7 @@ package steps;
 import baseEntities.BaseStep;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
+import pages.CheckoutCompletePage;
 import pages.CheckoutOverviewPage;
 
 public class CheckoutOverviewPageFinishStep extends BaseStep {
@@ -13,7 +14,8 @@ public class CheckoutOverviewPageFinishStep extends BaseStep {
     }
 
     @Step ("Нажатие на clickFinishButton.")
-    public void clickFinishButton() throws InterruptedException {
+    public CheckoutCompletePage clickFinishButton() throws InterruptedException {
         new CheckoutOverviewPage(driver,false).clickFinishButton();
+        return new CheckoutCompletePage(driver, false);
     }
 }

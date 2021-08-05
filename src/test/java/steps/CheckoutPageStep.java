@@ -3,33 +3,46 @@ package steps;
 import baseEntities.BaseStep;
 import core.ReadProperties;
 import io.qameta.allure.Step;
+import models.User;
+import models.UserBuilder;
 import org.openqa.selenium.WebDriver;
 import pages.CheckoutCartPage;
 
 import java.util.Properties;
 
 public class CheckoutPageStep extends BaseStep {
+    ReadProperties properties = ReadProperties.createReadProperties();
+    CheckoutCartPage checkoutCartPage = new CheckoutCartPage(driver,false);
 
     public CheckoutPageStep(WebDriver driver) throws InterruptedException {
         super(driver);
     }
 
-    ReadProperties properties = ReadProperties.createReadProperties();
-    CheckoutCartPage checkoutCartPage = new CheckoutCartPage(driver,false);
 
 @Step("Ввод информации о пользователе")
-    public void checkoutContinue(){
-        checkoutCartPage.setFirstName(properties.getFirstName());
-        checkoutCartPage.setLastName(properties.getLastName());
-        checkoutCartPage.setPostalCode(properties.getZip());
-        checkoutCartPage.clickContinue();
+    public CheckoutOverviewPageFinishStep checkoutContinue(){
+       User user = new UserBuilder()
+                .setFirstName(properties.getFirstName())
+                .setLastName(properties.getLastName())
+                .setZip(properties.getZip())
+                .build();
+
+       checkoutCartPage.setUserParameters(user);
+       checkoutCartPage.clickContinue();
+       return new CheckoutOverviewPageFinishStep(driver);
+
+
     }
 
-    public void checkoutContinue(String firstName, String LastName, String Zip){
-        checkoutCartPage.setFirstName(firstName);
-        checkoutCartPage.setLastName(LastName);
-        checkoutCartPage.setPostalCode(Zip);
+    public CheckoutOverviewPageFinishStep checkoutContinue(String firstName, String LastName, String Zip){
+        User user = new UserBuilder()
+                .setFirstName(firstName)
+                .setLastName(LastName)
+                .setZip(Zip)
+                .build();
+        checkoutCartPage.setUserParameters(user);
         checkoutCartPage.clickContinue();
+        return new CheckoutOverviewPageFinishStep(driver);
     }
 
 }

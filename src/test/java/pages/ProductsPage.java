@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.Select;
+import steps.CartReadyForCheckingStep;
 
 import java.util.List;
 
@@ -192,8 +193,9 @@ public class ProductsPage extends BasePage {
         }
     }
 
-    public void clickShoppingCartLink() {
+    public CartReadyForCheckingStep clickShoppingCartLink() {
         shopping_Cart_Button.click();
+        return new CartReadyForCheckingStep(driver);
     }
 
     public void clickSortByName_az() {

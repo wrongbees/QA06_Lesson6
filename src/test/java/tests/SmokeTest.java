@@ -20,10 +20,9 @@ public class SmokeTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     @Test(description = "Вход на https://www.saucedemo.com/")
     public void positiveLoginTest() throws InterruptedException {
-        LoginStep loginStep = new LoginStep(driver);
-        loginStep.login(properties.getUsername(), properties.getPassword());
 
-        ProductsPage page =new ProductsPage(driver, false);
+        ProductsPage page = (ProductsPage) new LoginStep(driver).login(properties.getUsername(), properties.getPassword());
+
         Assert.assertEquals(page.getTitleText(), "PRODUCTS", "Страница Products не открылась");
 
     }
@@ -34,21 +33,19 @@ public class SmokeTest extends BaseTest {
 
     public void negativeLoginTests() throws InterruptedException {
 
-        LoginStep loginStep = new LoginStep(driver);
-        loginStep.login("standard", "secret");
+        LoginPage loginPage = (LoginPage) new LoginStep(driver).login("standard", "secret");
 
-        Assert.assertEquals(new LoginPage(driver, false).getErrorLabel().getText(),
+        Assert.assertEquals(loginPage.getErrorLabel().getText(),
                 "Epic sadface: Username and password do not match any user in this service");
 
     }
     @Severity(SeverityLevel.NORMAL)
-    @Description("Негативный вход на https://www.saucedemo.com/")
-    @Test(description = "Негативный вход на https://www.saucedemo.com/")
+    @Description("Тест на добавление продукта в корзину")
+    @Test(description = "Тест на добавление продукта в корзину")
     public void positiveTestForAddingAnItemToTheCart() throws InterruptedException {
-        LoginStep loginStep = new LoginStep(driver);
-        loginStep.login();
+        ProductsPage page = (ProductsPage) new LoginStep(driver)
+                            .login();
 
-        ProductsPage page = new ProductsPage(driver, false);
 
         for (int i = 0; i <= 5; i++) {
             page.clickInventory_item_add_button_by_number(i);
@@ -104,27 +101,30 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Проверка функции оплты")
     public void positivePaymentVerificationTest() throws InterruptedException {
 
-        new LoginStep(driver).login();
-
-        ProductsPage page = new ProductsPage(driver, false);
+        ProductsPage page = (ProductsPage) new LoginStep(driver)
+                           .login();
 
         String inventoryName = page.getInventory_item_name_by_number(2);
 
         OrderStep orderStep = new OrderStep(driver);
         orderStep.orderProducts(inventoryName);
 
-        page.clickShoppingCartLink();
+        CheckoutCompletePage checkoutCompletePage = page
+                .clickShoppingCartLink()
+                .clickCheckoutButton()
+                .checkoutContinue()
+                .clickFinishButton();
 
-        CartReadyForCheckingStep crfc = new CartReadyForCheckingStep(driver);
-        crfc.clickCheckoutButton();
+        //CartReadyForCheckingStep crfc = new CartReadyForCheckingStep(driver);
+        //crfc.clickCheckoutButton();
 
-         CheckoutPageStep checkoutPageStep = new CheckoutPageStep(driver);
-         checkoutPageStep.checkoutContinue();
+//         CheckoutPageStep checkoutPageStep = new CheckoutPageStep(driver);
+//         checkoutPageStep.checkoutContinue();
 
-        CheckoutOverviewPageFinishStep checkoutOverviewPageFinishStep = new CheckoutOverviewPageFinishStep(driver);
-        checkoutOverviewPageFinishStep.clickFinishButton();
+//        CheckoutOverviewPageFinishStep checkoutOverviewPageFinishStep = new CheckoutOverviewPageFinishStep(driver);
+//        checkoutOverviewPageFinishStep.clickFinishButton();
 
-        Assert.assertTrue(new CheckoutCompletePage(driver, false).getTitleLabel().isDisplayed());
+        Assert.assertTrue(checkoutCompletePage.getTitleLabel().isDisplayed());
 
     }
     @Feature("SortingGoodsByName_ZA")
@@ -132,9 +132,9 @@ public class SmokeTest extends BaseTest {
     @Description("Проверка на сортировку продуктов по названию")
     @Test(description = "Проверка на сортировку продуктов по названию")
     public void positiveSortingGoodsByName_ZATest() throws InterruptedException {
-        new LoginStep(driver).login();
+        ProductsPage page =(ProductsPage) new LoginStep(driver)
+                           .login();
 
-        ProductsPage page = new ProductsPage(driver, false);
         page.clickSortByName_za();
 
         List<WebElement> listItemName = page.getInventoryItemNamesList();
@@ -150,9 +150,9 @@ public class SmokeTest extends BaseTest {
 
     @Test(description = "Проверка на сортировку продуктов по цене")
     public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
-        new LoginStep(driver).login();
+        ProductsPage page =(ProductsPage) new LoginStep(driver)
+                .login();
 
-        ProductsPage page = new ProductsPage(driver, false);
         page.clickSortByPrice_hilo();
 
 
@@ -178,16 +178,16 @@ public class SmokeTest extends BaseTest {
         //Sauce Labs Bike Light
         //Test.allTheThings() T-Shirt (Red)
         //Sauce Labs Backpack
-        LoginStep loginStep = new LoginStep(driver);
-        loginStep.login();
+        ProductsPage page =(ProductsPage) new LoginStep(driver)
+                .login();
 
         OrderStep orderStep = new OrderStep(driver);
         orderStep.orderProducts("Sauce Labs Bolt T-Shirt",
                 "Sauce Labs Onesie", "Sauce Labs Backpack");
         Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-        ProductsPage productsPage = new ProductsPage(driver, false);
-        productsPage.clickShoppingCartLink();
+       // ProductsPage productsPage = new ProductsPage(driver, false);
+        page.clickShoppingCartLink();
 
         CartPage cartPage = new CartPage(driver, false);
         Map<String, String> productInTheCart = cartPage.getProductInTheCart(); // Мапа из корзины

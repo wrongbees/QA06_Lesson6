@@ -1,6 +1,7 @@
 package pages;
 
 import baseEntities.BasePage;
+import models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -39,8 +40,11 @@ public class CheckoutCartPage extends BasePage {
     public WebElement getPostalCode() {return driver.findElement(postalCode_by);}
 
     public void clickContinue() {getContinueButton().click();}
-    public void setFirstName(String name) {getFirstName().sendKeys(name);}
-    public void setLastName(String name) {getLastName().sendKeys(name);}
-    public void setPostalCode(String code) {getPostalCode().sendKeys(code);}
+
+    public void setUserParameters(User user){
+        getFirstName().sendKeys(user.getFirstname());
+        getLastName().sendKeys(user.getLastname());
+        getPostalCode().sendKeys(user.getZip());
+    }
 
 }
