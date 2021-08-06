@@ -6,7 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class CartPage extends BasePage {
 
@@ -30,7 +33,7 @@ public class CartPage extends BasePage {
     }
 
     protected void openPage() {
-        driver.get(properties.getURL()+endpoint);
+        driver.get(properties.getURL() + endpoint);
     }
 
     public boolean isPageOpened() {
@@ -42,7 +45,6 @@ public class CartPage extends BasePage {
             return false;
         }
     }
-
 
 
     public WebElement getCheckout() {
@@ -58,9 +60,9 @@ public class CartPage extends BasePage {
     }
 
 
-
-    public void clickCheckoutButton() {
+    public CheckoutCartPage clickCheckoutButton() throws InterruptedException {
         getCheckout().click();
+        return new CheckoutCartPage(driver, false);
     }
 
     public void clickContinueShopping() {
@@ -74,11 +76,13 @@ public class CartPage extends BasePage {
     public Map<String, String> getProductInTheCart() {
 
         Map<String, String> productsInTheCart = new HashMap<>();
-        List<WebElement> productList =  productNameList;
+        List<WebElement> productList = productNameList;
 
         for (WebElement item : productList) {
             productsInTheCart.put(item.getText(), getProductPriceByName(item.getText()));
         }
         return productsInTheCart;
     }
+
+
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import steps.CheckoutOverviewPageFinishStep;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class CheckoutOverviewPage extends BasePage {
 
-    private final static String endpoint ="checkout-step-two.html";
+    private final static String endpoint = "checkout-step-two.html";
     private final static By finish_button_by = By.id("finish");
     private final static By cancel_button_by = By.id("cancel");
     private final static By title_label_by = By.cssSelector(".label");
@@ -30,7 +31,7 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     protected void openPage() {
-        driver.get(properties.getURL()+endpoint);
+        driver.get(properties.getURL() + endpoint);
 
     }
 
@@ -69,17 +70,20 @@ public class CheckoutOverviewPage extends BasePage {
         getCancelButton().click();
     }
 
-    public WebElement get_Summary_Subtotal(){ return driver.findElement(summary_subtotal_label);}
+    public WebElement get_Summary_Subtotal() {
+        return driver.findElement(summary_subtotal_label);
+    }
 
     public String getSummarySubtotal() {
         return driver.findElement(summary_subtotal_label).getText().replace("Item total: $", "");
     }
 
     public String getTotalLabel() {
-        return driver.findElement(summary_total_label).getText().replace("Total: $","");
+        return driver.findElement(summary_total_label).getText().replace("Total: $", "");
     }
+
     public String getTaxLabel() {
-        return driver.findElement(summary_tax_label).getText().replace("Tax: $","");
+        return driver.findElement(summary_tax_label).getText().replace("Tax: $", "");
     }
 
 
@@ -101,5 +105,9 @@ public class CheckoutOverviewPage extends BasePage {
             productInOverviewPage.put(item.getText(), getProductPriceByName(item.getText()));
         }
         return productInOverviewPage;
+    }
+
+    public CheckoutOverviewPageFinishStep goToCheckoutOverviewPageFinishStep() {
+        return new CheckoutOverviewPageFinishStep(driver);
     }
 }

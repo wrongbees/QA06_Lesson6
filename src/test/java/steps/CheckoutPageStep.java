@@ -7,42 +7,38 @@ import models.User;
 import models.UserBuilder;
 import org.openqa.selenium.WebDriver;
 import pages.CheckoutCartPage;
-
-import java.util.Properties;
+import pages.CheckoutOverviewPage;
 
 public class CheckoutPageStep extends BaseStep {
     ReadProperties properties = ReadProperties.createReadProperties();
-    CheckoutCartPage checkoutCartPage = new CheckoutCartPage(driver,false);
+    CheckoutCartPage checkoutCartPage = new CheckoutCartPage(driver, false);
 
     public CheckoutPageStep(WebDriver driver) throws InterruptedException {
         super(driver);
     }
 
 
-@Step("Ввод информации о пользователе")
-    public CheckoutOverviewPageFinishStep checkoutContinue(){
-       User user = new UserBuilder()
+    @Step("Ввод информации о пользователе")
+    public CheckoutOverviewPage checkoutContinue() throws InterruptedException {
+        User user = new UserBuilder()
                 .setFirstName(properties.getFirstName())
                 .setLastName(properties.getLastName())
                 .setZip(properties.getZip())
                 .build();
 
-       checkoutCartPage.setUserParameters(user);
-       checkoutCartPage.clickContinue();
-       return new CheckoutOverviewPageFinishStep(driver);
+        checkoutCartPage.setUserParameters(user);
+        checkoutCartPage.clickContinue();
+
+        return new CheckoutOverviewPage(driver, false);
 
 
     }
 
-    public CheckoutOverviewPageFinishStep checkoutContinue(String firstName, String LastName, String Zip){
-        User user = new UserBuilder()
-                .setFirstName(firstName)
-                .setLastName(LastName)
-                .setZip(Zip)
-                .build();
+    public CheckoutOverviewPage checkoutContinue(User user) throws InterruptedException {
+
         checkoutCartPage.setUserParameters(user);
         checkoutCartPage.clickContinue();
-        return new CheckoutOverviewPageFinishStep(driver);
+        return new CheckoutOverviewPage(driver, false);
     }
 
 }

@@ -17,7 +17,7 @@ public class CartReadyForCheckingStep extends BaseStep {
 
     @Step("Нажимаем кнопку CheckoutButton")
     public CheckoutPageStep clickCheckoutButton() throws InterruptedException {
-        new CartPage(driver,false).clickCheckoutButton();
+        new CartPage(driver, false).clickCheckoutButton();
         return new CheckoutPageStep(driver);
     }
 }

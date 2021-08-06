@@ -2,26 +2,53 @@ package tests;
 
 import baseEntities.BaseTest;
 import io.qameta.allure.*;
+import models.Credentials;
+import models.CredentialsBuilder;
+import models.User;
+import models.UserBuilder;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
-import steps.*;
+import steps.LoginStep;
+import steps.OrderStep;
 
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * ************************** HOME WORK 15 **********************************
+ * a. Page Factory
+ * Паттерн Page Factory реализован в LoginPage, ProductPage.
+ * <p>
+ * b. Chain Of Invocations - на уровне страниц
+ * После долгих размышлений было принято решение ( на мой взгляд правильное)-
+ * не перегружать page методами со сложной логикой и реализовать только методы
+ * возвращающие steps. В степах будут находится методы возвращающие pages.
+ * <p>
+ * c. Value Object
+ * модель models.Credentials - используется для логировния на входе.
+ * модель models.User - для регистрации при оплате.
+ * <p>
+ * d. Builder
+ * models.CredentialsBuilder - класс используемый для сборки Credentials.
+ * models.UserBuilder - класс используемый для сборки User.
+ */
 public class SmokeTest extends BaseTest {
 
-    @Link(value = "www.saucedemo.com", url ="https://www.saucedemo.com/")
+    @Link(value = "www.saucedemo.com", url = "https://www.saucedemo.com/")
     @Description("Вход на https://www.saucedemo.com/")
     @Severity(SeverityLevel.BLOCKER)
     @Test(description = "Вход на https://www.saucedemo.com/")
     public void positiveLoginTest() throws InterruptedException {
 
-        ProductsPage page = (ProductsPage) new LoginStep(driver).login(properties.getUsername(), properties.getPassword());
+        Credentials credentials = new CredentialsBuilder()
+                .setUserName("standard_user")
+                .setPassword("secret_sauce")
+                .build();
+
+        ProductsPage page = (ProductsPage) new LoginStep(driver).login(credentials);
 
         Assert.assertEquals(page.getTitleText(), "PRODUCTS", "Страница Products не открылась");
 
@@ -33,19 +60,30 @@ public class SmokeTest extends BaseTest {
 
     public void negativeLoginTests() throws InterruptedException {
 
-        LoginPage loginPage = (LoginPage) new LoginStep(driver).login("standard", "secret");
+        Credentials credentials = new CredentialsBuilder()
+                .setUserName("standard")
+                .setPassword("secret")
+                .build();
+
+
+        LoginPage loginPage = (LoginPage) new LoginStep(driver).login(credentials);
 
         Assert.assertEquals(loginPage.getErrorLabel().getText(),
                 "Epic sadface: Username and password do not match any user in this service");
 
     }
+
     @Severity(SeverityLevel.NORMAL)
     @Description("Тест на добавление продукта в корзину")
     @Test(description = "Тест на добавление продукта в корзину")
     public void positiveTestForAddingAnItemToTheCart() throws InterruptedException {
-        ProductsPage page = (ProductsPage) new LoginStep(driver)
-                            .login();
+        Credentials credentials = new CredentialsBuilder()
+                .setUserName("standard_user")
+                .setPassword("secret_sauce")
+                .build();
 
+        ProductsPage page = (ProductsPage) new LoginStep(driver)
+                .login(credentials);
 
         for (int i = 0; i <= 5; i++) {
             page.clickInventory_item_add_button_by_number(i);
@@ -72,13 +110,18 @@ public class SmokeTest extends BaseTest {
     @Issue("11")
     @Test(description = "Проверка логирования различными userNames")
     public void positiveAcceptedUsernameTest() throws InterruptedException {
-        String[] userName = {"standard_user", "problem_user", "performance_glitch_user", "locked_out_user"};
+
+        Credentials credentials = new CredentialsBuilder()
+                .setUserNameList("standard_user", "problem_user")
+                .setUserNameList("performance_glitch_user", "locked_out_user")
+                .setPassword("secret_sauce")
+                .build();
 
         LoginStep loginStep = new LoginStep(driver);
         LoginPage loginPage = new LoginPage(driver, true);
 
-        for (String name : userName) {
-            loginStep.login(name, properties.getPassword());
+        for (String name : credentials.getUserNameList()) {
+            loginStep.login(name, credentials.getPassword());
 
             try {
                 loginPage.loginButton.isDisplayed();
@@ -101,8 +144,20 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Проверка функции оплты")
     public void positivePaymentVerificationTest() throws InterruptedException {
 
+        Credentials credentials = new CredentialsBuilder()
+                .setUserName("standard_user")
+                .setPassword("secret_sauce")
+                .build();
+
+
+        User user = new UserBuilder()
+                .setFirstName("Vladimir")
+                .setLastName("Vinnik")
+                .setZip("12345")
+                .build();
+
         ProductsPage page = (ProductsPage) new LoginStep(driver)
-                           .login();
+                .login(credentials);
 
         String inventoryName = page.getInventory_item_name_by_number(2);
 
@@ -110,30 +165,25 @@ public class SmokeTest extends BaseTest {
         orderStep.orderProducts(inventoryName);
 
         CheckoutCompletePage checkoutCompletePage = page
-                .clickShoppingCartLink()
-                .clickCheckoutButton()
-                .checkoutContinue()
-                .clickFinishButton();
+                .clickShoppingCartLink()                //CartPage
+                .clickCheckoutButton()                  //CheckoutCartPage
+                .goToCheckoutPageStep()                 //CheckoutPageStep
+                .checkoutContinue(user)                     //CheckoutOverviewPage
+                .goToCheckoutOverviewPageFinishStep()   //CheckoutOverviewPageFinishStep
+                .clickFinishButton();                   //CheckoutCompletePage
 
-        //CartReadyForCheckingStep crfc = new CartReadyForCheckingStep(driver);
-        //crfc.clickCheckoutButton();
-
-//         CheckoutPageStep checkoutPageStep = new CheckoutPageStep(driver);
-//         checkoutPageStep.checkoutContinue();
-
-//        CheckoutOverviewPageFinishStep checkoutOverviewPageFinishStep = new CheckoutOverviewPageFinishStep(driver);
-//        checkoutOverviewPageFinishStep.clickFinishButton();
 
         Assert.assertTrue(checkoutCompletePage.getTitleLabel().isDisplayed());
 
     }
+
     @Feature("SortingGoodsByName_ZA")
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка на сортировку продуктов по названию")
     @Test(description = "Проверка на сортировку продуктов по названию")
     public void positiveSortingGoodsByName_ZATest() throws InterruptedException {
-        ProductsPage page =(ProductsPage) new LoginStep(driver)
-                           .login();
+        ProductsPage page = (ProductsPage) new LoginStep(driver)
+                .login();
 
         page.clickSortByName_za();
 
@@ -144,13 +194,14 @@ public class SmokeTest extends BaseTest {
         }
 
     }
+
     @Feature("SortingGoodsByPrice_HiLo")
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка на сортировку продуктов по цене")
 
     @Test(description = "Проверка на сортировку продуктов по цене")
     public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
-        ProductsPage page =(ProductsPage) new LoginStep(driver)
+        ProductsPage page = (ProductsPage) new LoginStep(driver)
                 .login();
 
         page.clickSortByPrice_hilo();
@@ -167,6 +218,7 @@ public class SmokeTest extends BaseTest {
         }
 
     }
+
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка соответствия выбираемых продуктов, продуктам, отображаемым в корзине")
     @Test(description = "Проверка соответствия выбираемых продуктов, продуктам, отображаемым в корзине")
@@ -178,7 +230,7 @@ public class SmokeTest extends BaseTest {
         //Sauce Labs Bike Light
         //Test.allTheThings() T-Shirt (Red)
         //Sauce Labs Backpack
-        ProductsPage page =(ProductsPage) new LoginStep(driver)
+        ProductsPage page = (ProductsPage) new LoginStep(driver)
                 .login();
 
         OrderStep orderStep = new OrderStep(driver);
@@ -186,7 +238,7 @@ public class SmokeTest extends BaseTest {
                 "Sauce Labs Onesie", "Sauce Labs Backpack");
         Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-       // ProductsPage productsPage = new ProductsPage(driver, false);
+        // ProductsPage productsPage = new ProductsPage(driver, false);
         page.clickShoppingCartLink();
 
         CartPage cartPage = new CartPage(driver, false);
@@ -207,6 +259,7 @@ public class SmokeTest extends BaseTest {
 
         }
     }
+
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка правильного отображения информации перед оплатой")
     @Test(description = "Проверка правильного отображения информации перед оплатой")
@@ -218,24 +271,20 @@ public class SmokeTest extends BaseTest {
         //Sauce Labs Bike Light
         //Test.allTheThings() T-Shirt (Red)
         //Sauce Labs Backpack
-        LoginStep loginStep = new LoginStep(driver);
-        loginStep.login();
+        ProductsPage productsPage = (ProductsPage) new LoginStep(driver).login();
+
 
         OrderStep orderStep = new OrderStep(driver);
         orderStep.orderProducts("Sauce Labs Bike Light",
                 "Sauce Labs Fleece Jacket");
         Map<String, String> addedProducts = orderStep.getAddedProduct();// Мапа заказа
 
-        ProductsPage productsPage = new ProductsPage(driver, false);
-        productsPage.clickShoppingCartLink();
+        CheckoutOverviewPage checkoutOverviewPage = productsPage
+                .clickShoppingCartLink()
+                .clickCheckoutButton()
+                .goToCheckoutPageStep()
+                .checkoutContinue();
 
-        CartReadyForCheckingStep cartReadyForCheckingStep = new CartReadyForCheckingStep(driver);
-        cartReadyForCheckingStep.clickCheckoutButton();
-
-        CheckoutPageStep checkoutPageStep = new CheckoutPageStep(driver);
-        checkoutPageStep.checkoutContinue();
-
-        CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver, false);
         Map<String, String> productsFromOverviewPage = checkoutOverviewPage.getProductInOverviewPage();
 
         Assert.assertEquals(productsFromOverviewPage.size(), addedProducts.size(),

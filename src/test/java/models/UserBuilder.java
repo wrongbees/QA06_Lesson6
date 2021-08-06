@@ -14,17 +14,17 @@ public class UserBuilder {
 
     }
 
-    public UserBuilder setLastName(String lastName){
+    public UserBuilder setLastName(String lastName) {
         user.setLastname(lastName);
         return this;
     }
 
-    public UserBuilder setZip(String zip){
+    public UserBuilder setZip(String zip) {
         user.setZip(zip);
         return this;
     }
 
-    public User build(){
+    public User build() {
         return this.user;
     }
 

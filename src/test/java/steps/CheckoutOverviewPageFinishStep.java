@@ -13,9 +13,9 @@ public class CheckoutOverviewPageFinishStep extends BaseStep {
 
     }
 
-    @Step ("Нажатие на clickFinishButton.")
+    @Step("Нажатие на clickFinishButton.")
     public CheckoutCompletePage clickFinishButton() throws InterruptedException {
-        new CheckoutOverviewPage(driver,false).clickFinishButton();
+        new CheckoutOverviewPage(driver, false).clickFinishButton();
         return new CheckoutCompletePage(driver, false);
     }
 }

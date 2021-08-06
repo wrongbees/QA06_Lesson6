@@ -5,7 +5,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.Select;
-import steps.CartReadyForCheckingStep;
 
 import java.util.List;
 
@@ -116,7 +115,7 @@ public class ProductsPage extends BasePage {
         boolean isFound = false;
         for (WebElement element : productList) {
             String text = element.getText();
-            System.out.println(text);
+
             if (text.equalsIgnoreCase(productName)) {
                 isFound = !isFound;
                 return getButton(element);
@@ -151,7 +150,7 @@ public class ProductsPage extends BasePage {
         boolean isFound = false;
         for (WebElement element : productList) {
             String text = element.getText();
-            System.out.println(text);
+
             if (text.equalsIgnoreCase(name)) {
                 isFound = !isFound;
                 return getPrice(element);
@@ -193,9 +192,10 @@ public class ProductsPage extends BasePage {
         }
     }
 
-    public CartReadyForCheckingStep clickShoppingCartLink() {
+    public CartPage clickShoppingCartLink() throws InterruptedException {
         shopping_Cart_Button.click();
-        return new CartReadyForCheckingStep(driver);
+
+        return new CartPage(driver, false);
     }
 
     public void clickSortByName_az() {

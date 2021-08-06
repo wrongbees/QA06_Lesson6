@@ -14,7 +14,7 @@ public class User {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    protected void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
@@ -22,7 +22,7 @@ public class User {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    protected void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
@@ -30,7 +30,7 @@ public class User {
         return zip;
     }
 
-    public void setZip(String zip) {
+    protected void setZip(String zip) {
         this.zip = zip;
     }
 
