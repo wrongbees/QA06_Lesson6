@@ -1,10 +1,13 @@
 package baseEntities;
 
 import core.ReadProperties;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 public abstract class BasePage {
+    protected final Logger logger = LogManager.getLogger(this);
     protected static final int WAIT_FOR_PAGE_LOADING_SEC = 15;
     protected WebDriver driver;
     protected ReadProperties properties;
@@ -23,6 +26,7 @@ public abstract class BasePage {
         }
 
         waitForOpen();
+        logger.info("Страница "+this.getClass()+" успешно открылась....");
     }
 
     protected void waitForOpen() throws InterruptedException {

@@ -57,8 +57,11 @@ public class CheckoutCartPage extends BasePage {
 
     public void setUserParameters(User user) {
         getFirstName().sendKeys(user.getFirstname());
+        logger.debug("Инициализация поля first name значением : "+user.getFirstname());
         getLastName().sendKeys(user.getLastname());
+        logger.debug("Инициализация поля last name значением : "+user.getLastname());
         getPostalCode().sendKeys(user.getZip());
+        logger.debug("Инициализация поля Zip значением : "+user.getZip());
     }
 
     public CheckoutPageStep goToCheckoutPageStep() throws InterruptedException {

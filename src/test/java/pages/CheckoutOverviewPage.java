@@ -97,12 +97,15 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     public Map<String, String> getProductInOverviewPage() {
+        logger.info("Выполнение метода getProductInOverviewPage()");
 
         Map<String, String> productInOverviewPage = new HashMap<>();
         List<WebElement> productList = getProductNameList();
 
         for (WebElement item : productList) {
             productInOverviewPage.put(item.getText(), getProductPriceByName(item.getText()));
+            logger.debug(String.format("В Мар товара добавлен товар : %s  %s",
+                    item.getText(),getProductPriceByName(item.getText())));
         }
         return productInOverviewPage;
     }

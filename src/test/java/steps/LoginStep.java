@@ -17,7 +17,7 @@ public class LoginStep extends BaseStep {
 
     @Step("Логировние параметрами '{username}'  '{password}'")
     public BasePage login(String username, String password) throws InterruptedException {
-
+        logger.error("Выполнение step "+this+" login(String username, String password)");
 
         LoginPage loginPage = new LoginPage(driver, true);
         loginPage.setUsername(username);
@@ -33,6 +33,7 @@ public class LoginStep extends BaseStep {
 
     @Step("Логировние параметрами из config.properties.")
     public BasePage login() throws InterruptedException {
+        logger.error("Выполнение step "+this+" login()");
         ReadProperties properties = ReadProperties.createReadProperties();
         LoginPage loginPage = new LoginPage(driver, true);
 
@@ -50,6 +51,7 @@ public class LoginStep extends BaseStep {
 
     @Step("Логировние c помощью модели Credentials")
     public BasePage login(Credentials credentials) throws InterruptedException {
+        logger.error("Выполнение step "+this+" login(Credentials credentials)");
 
 
         LoginPage loginPage = new LoginPage(driver, true);

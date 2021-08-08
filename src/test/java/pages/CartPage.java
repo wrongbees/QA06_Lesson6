@@ -30,6 +30,7 @@ public class CartPage extends BasePage {
 
     public CartPage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         super(driver, openPageByUrl);
+
     }
 
     protected void openPage() {
@@ -61,7 +62,9 @@ public class CartPage extends BasePage {
 
 
     public CheckoutCartPage clickCheckoutButton() throws InterruptedException {
+        logger.debug("Нажатие кнопки button_checkout_by");
         getCheckout().click();
+
         return new CheckoutCartPage(driver, false);
     }
 
@@ -75,6 +78,7 @@ public class CartPage extends BasePage {
 
     public Map<String, String> getProductInTheCart() {
 
+        logger.trace("Инициализация Map - продуктов");
         Map<String, String> productsInTheCart = new HashMap<>();
         List<WebElement> productList = productNameList;
 

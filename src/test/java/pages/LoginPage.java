@@ -58,14 +58,17 @@ public class LoginPage extends BasePage {
     // Атомарные методы по работе с элементами
     public void setUsername(String text) {
         userNameInput.sendKeys(text);
+        logger.debug(String.format("Инициализация поля User Name значением : %s",text));
     }
 
     public void setPassword(String text) {
         passwordInput.sendKeys(text);
+        logger.debug(String.format("Инициализация поля Password значением : %s",text));
     }
 
     public void clickLoginButton() {
         loginButton.click();
+        logger.debug("Нажимаем кнопку 'login-button'");
     }
 
 

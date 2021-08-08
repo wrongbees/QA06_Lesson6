@@ -41,6 +41,7 @@ public class CheckoutCompletePage extends BasePage {
 
 
     public void clickBackHome() {
+        logger.debug("Нажимем кнопку 'back_home_button_by'");
         getBackHomeButton().click();
     }
 
