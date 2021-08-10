@@ -78,7 +78,7 @@ public class CartPage extends BasePage {
 
     public Map<String, String> getProductInTheCart() {
 
-        logger.trace("Инициализация Map - продуктов");
+        logger.debug("Инициализация Map - продуктов");
         Map<String, String> productsInTheCart = new HashMap<>();
         List<WebElement> productList = productNameList;
 

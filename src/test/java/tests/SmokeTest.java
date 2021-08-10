@@ -53,7 +53,7 @@ public class SmokeTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     @Test(description = "Вход на https://www.saucedemo.com/")
     public void positiveLoginTest() throws InterruptedException {
-        logger.fatal("Начало positiveLoginTest() ");
+        logger.info("Начало positiveLoginTest() ");
 
         Credentials credentials = Credentials.builder()
                 .userName("standard_user")
@@ -64,7 +64,7 @@ public class SmokeTest extends BaseTest {
 
         Assert.assertEquals(page.getTitleText(), "PRODUCTS", "Страница Products не открылась");
 
-        logger.fatal("Конец positiveLoginTest()");
+        logger.info("Конец positiveLoginTest()");
 
     }
 
@@ -73,7 +73,7 @@ public class SmokeTest extends BaseTest {
     @Test
 
     public void negativeLoginTests() throws InterruptedException {
-        logger.fatal("Начало negativeLoginTests()");
+        logger.info("Начало negativeLoginTests()");
 
         Credentials credentials = Credentials.builder()
                 .userName("standard")
@@ -86,7 +86,7 @@ public class SmokeTest extends BaseTest {
         Assert.assertEquals(loginPage.getErrorLabel().getText(),
                 "Epic sadface: Username and password do not match any user in this service");
 
-        logger.fatal("Конец negativeLoginTests()");
+        logger.info("Конец negativeLoginTests()");
 
     }
 
@@ -95,7 +95,7 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Тест на добавление продукта в корзину")
     public void positiveTestForAddingAnItemToTheCart() throws InterruptedException {
 
-        logger.fatal("Начало positiveTestForAddingAnItemToTheCart()");
+        logger.info("Начало positiveTestForAddingAnItemToTheCart()");
 
         Credentials credentials = Credentials.builder()
                 .userName("standard_user")
@@ -125,14 +125,14 @@ public class SmokeTest extends BaseTest {
         }
         Assert.assertFalse(isDisplayed);
 
-        logger.fatal("Конец positiveTestForAddingAnItemToTheCart()");
+        logger.info("Конец positiveTestForAddingAnItemToTheCart()");
     }
 
     @TmsLink("1")
     @Issue("11")
     @Test(description = "Проверка логирования различными userNames")
     public void positiveAcceptedUsernameTest() throws InterruptedException {
-        logger.fatal("Начало positiveAcceptedUsernameTest()");
+        logger.info("Начало positiveAcceptedUsernameTest()");
 
         String[] user = new String[]{"standard_user", "standard_user", "locked_out_user",
                 "problem_user", "performance_glitch_user"};
@@ -162,14 +162,14 @@ public class SmokeTest extends BaseTest {
 
             }
         }
-        logger.fatal("Конец positiveAcceptedUsernameTest()");
+        logger.info("Конец positiveAcceptedUsernameTest()");
     }
 
     @Severity(SeverityLevel.CRITICAL)
     @Description("Проверка функции оплты")
     @Test(description = "Проверка функции оплты")
     public void positivePaymentVerificationTest() throws InterruptedException {
-        logger.fatal("Начало positivePaymentVerificationTest()");
+        logger.info("Начало positivePaymentVerificationTest()");
 
         Credentials credentials = Credentials.builder()
                 .userName("standard_user")
@@ -202,7 +202,7 @@ public class SmokeTest extends BaseTest {
 
         Assert.assertTrue(checkoutCompletePage.getTitleLabel().isDisplayed());
 
-        logger.fatal("Конец positivePaymentVerificationTest()");
+        logger.info("Конец positivePaymentVerificationTest()");
     }
 
     @Feature("SortingGoodsByName_ZA")
@@ -210,7 +210,7 @@ public class SmokeTest extends BaseTest {
     @Description("Проверка на сортировку продуктов по названию")
     @Test(description = "Проверка на сортировку продуктов по названию")
     public void positiveSortingGoodsByName_ZATest() throws InterruptedException {
-        logger.fatal("Начало positiveSortingGoodsByName_ZATest()");
+        logger.info("Начало positiveSortingGoodsByName_ZATest()");
         ProductsPage page = (ProductsPage) new LoginStep(driver)
                 .login();
 
@@ -221,7 +221,7 @@ public class SmokeTest extends BaseTest {
             boolean result = listItemName.get(i).getText().compareTo(listItemName.get(i + 1).getText()) > 0;
             Assert.assertTrue(result, "После сортировки [Name (Z to A)] нужный порядок не достигнут");
         }
-        logger.fatal("Конец positiveSortingGoodsByName_ZATest()");
+        logger.info("Конец positiveSortingGoodsByName_ZATest()");
     }
 
     @Feature("SortingGoodsByPrice_HiLo")
@@ -230,7 +230,7 @@ public class SmokeTest extends BaseTest {
 
     @Test(description = "Проверка на сортировку продуктов по цене")
     public void positiveSortingGoodsByPrice_HiLoTest() throws InterruptedException {
-        logger.fatal("Начало positiveSortingGoodsByPrice_HiLoTest()");
+        logger.info("Начало positiveSortingGoodsByPrice_HiLoTest()");
         ProductsPage page = (ProductsPage) new LoginStep(driver)
                 .login();
 
@@ -246,14 +246,14 @@ public class SmokeTest extends BaseTest {
 
             Assert.assertTrue(result, "После сортировки [Price (high to low)] нужный порядок не достигнут");
         }
-        logger.fatal("Конец positiveSortingGoodsByPrice_HiLoTest()");
+        logger.info("Конец positiveSortingGoodsByPrice_HiLoTest()");
     }
 
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка соответствия выбираемых продуктов, продуктам, отображаемым в корзине")
     @Test(description = "Проверка соответствия выбираемых продуктов, продуктам, отображаемым в корзине")
     public void checkingTheItemInTheCartPositiveTest() throws InterruptedException {
-        logger.fatal("Начало checkingTheItemInTheCartPositiveTest()");
+        logger.info("Начало checkingTheItemInTheCartPositiveTest()");
         //      product Names
         //Sauce Labs Bolt T-Shirt
         //Sauce Labs Fleece Jacket
@@ -295,14 +295,14 @@ public class SmokeTest extends BaseTest {
                     "Не совпадает цена у продукта " + product.getKey());
 
         }
-        logger.fatal("Конец checkingTheItemInTheCartPositiveTest()");
+        logger.info("Конец checkingTheItemInTheCartPositiveTest()");
     }
 
     @Severity(SeverityLevel.MINOR)
     @Description("Проверка правильного отображения информации перед оплатой")
     @Test(description = "Проверка правильного отображения информации перед оплатой")
     public void checkingTheProductOnTheCheckoutOverviewPageTest() throws InterruptedException {
-        logger.fatal("Начало checkingTheProductOnTheCheckoutOverviewPageTest()");
+        logger.info("Начало checkingTheProductOnTheCheckoutOverviewPageTest()");
         //      product Names
         //Sauce Labs Bolt T-Shirt
         //Sauce Labs Fleece Jacket
@@ -361,7 +361,7 @@ public class SmokeTest extends BaseTest {
 
         Assert.assertEquals(actualTotal, expectedTotal, "Сумма к оплате Total рассчитана неверно");
 
-        logger.fatal("Конец checkingTheProductOnTheCheckoutOverviewPageTest()");
+        logger.info("Конец checkingTheProductOnTheCheckoutOverviewPageTest()");
     }
 
 

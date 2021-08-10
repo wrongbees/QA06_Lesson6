@@ -169,7 +169,7 @@ public class ProductsPage extends BasePage {
     }
 
     public void clickLogout() throws InterruptedException {
-        logger.info("Выполнение метода clickLogout()");
+        logger.debug("Выполнение метода clickLogout()");
         burger_menu.click();
         int time = 0;
         while (true || (time < 5)) {
@@ -206,32 +206,32 @@ public class ProductsPage extends BasePage {
     }
 
     public void clickSortByName_az() {
-        logger.info("Выполнение метода clickSortByName_az()");
+        logger.debug("Выполнение метода clickSortByName_az()");
         Select select = new Select(product_Sort_Container);
         select.selectByVisibleText(sort_by_name_AZ.getText());
     }
 
     public void clickSortByName_za() {
-        logger.info("Выполнение метода clickSortByName_za()");
+        logger.debug("Выполнение метода clickSortByName_za()");
         Select select = new Select(product_Sort_Container);
         select.selectByVisibleText(sort_by_name_ZA.getText());
     }
 
     public void clickSortByPrice_hilo() {
-        logger.info("Выполнение метода clickSortByPrice_hilo()");
+        logger.debug("Выполнение метода clickSortByPrice_hilo()");
         Select select = new Select(product_Sort_Container);
         select.selectByVisibleText(sort_by_price_HiLo.getText());
     }
 
     public void clickSortByPrice_lohi() {
-        logger.info("Выполнение метода clickSortByPrice_lohi()");
+        logger.debug("Выполнение метода clickSortByPrice_lohi()");
         Select select = new Select(product_Sort_Container);
         select.selectByVisibleText(sort_by_price_LoHi.getText());
     }
 
     // добавление товара в корзину
     public void addToCart(String productName) {
-        logger.info("Выполнение метода addToCart()");
+        logger.debug("Выполнение метода addToCart()");
         getAddToCartButton(productName).click();
     }
 

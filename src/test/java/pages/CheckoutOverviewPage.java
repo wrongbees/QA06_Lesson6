@@ -97,7 +97,7 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     public Map<String, String> getProductInOverviewPage() {
-        logger.info("Выполнение метода getProductInOverviewPage()");
+        logger.debug("Выполнение метода getProductInOverviewPage()");
 
         Map<String, String> productInOverviewPage = new HashMap<>();
         List<WebElement> productList = getProductNameList();

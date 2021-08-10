@@ -19,7 +19,7 @@ public class CheckoutPageStep extends BaseStep {
 
     @Step("Ввод информации о пользователе")
     public CheckoutOverviewPage checkoutContinue() throws InterruptedException {
-        logger.error("Выполнение step "+this+" checkoutContinue()");
+        logger.info("Выполнение step "+this+" checkoutContinue()");
         User user = User.builder()
                 .firstname(properties.getFirstName())
                 .lastname(properties.getLastName())
@@ -35,7 +35,7 @@ public class CheckoutPageStep extends BaseStep {
     }
 
     public CheckoutOverviewPage checkoutContinue(User user) throws InterruptedException {
-        logger.error("Выполнение step "+this+" checkoutContinue(User user");
+        logger.info("Выполнение step "+this+" checkoutContinue(User user");
         checkoutCartPage.setUserParameters(user);
         checkoutCartPage.clickContinue();
         return new CheckoutOverviewPage(driver, false);
