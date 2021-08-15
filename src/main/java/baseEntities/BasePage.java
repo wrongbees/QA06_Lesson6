@@ -18,7 +18,7 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver, boolean openPageByUrl) throws InterruptedException {
         this.driver = driver;
-        properties = ReadProperties.createReadProperties();
+        properties = ReadProperties.getInstance();
         PageFactory.initElements(this.driver, this);
 
         if (openPageByUrl) {

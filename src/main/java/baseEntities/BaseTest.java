@@ -19,7 +19,7 @@ public class BaseTest {
     @BeforeTest
     public void setupTest(){
 
-        properties = ReadProperties.createReadProperties();
+        properties = ReadProperties.getInstance();
         driver = new BrowserService().getDriver();
     }
 

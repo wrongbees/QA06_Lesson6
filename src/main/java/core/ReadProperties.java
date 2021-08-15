@@ -18,14 +18,18 @@ public class ReadProperties {
         }
 
     }
-    public static ReadProperties createReadProperties(){
+
+    public static ReadProperties getInstance(){
         if (currentReadProperty == null){return new ReadProperties();}
         return currentReadProperty;
     }
 
     public String getURL() { return properties.getProperty("url");}
+    public String getTestRailURL() { return properties.getProperty("testrail_url");}
     public String getBrowser() { return properties.getProperty("browser");}
     public String getUsername() { return properties.getProperty("username");}
+    public String getApiUsername() { return properties.getProperty("api_username");}
+    public String getApiPassword() { return properties.getProperty("api_password");}
     public String getPassword() { return properties.getProperty("password");}
     public int getTimeout() { return Integer.parseInt(properties.getProperty("timeout"));}
     public String getFirstName() { return properties.getProperty("firstname");}

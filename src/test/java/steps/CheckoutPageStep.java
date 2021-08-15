@@ -9,7 +9,7 @@ import pages.CheckoutCartPage;
 import pages.CheckoutOverviewPage;
 
 public class CheckoutPageStep extends BaseStep {
-    ReadProperties properties = ReadProperties.createReadProperties();
+    ReadProperties properties = ReadProperties.getInstance();
     CheckoutCartPage checkoutCartPage = new CheckoutCartPage(driver, false);
 
     public CheckoutPageStep(WebDriver driver) throws InterruptedException {

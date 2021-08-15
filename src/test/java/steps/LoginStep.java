@@ -34,7 +34,7 @@ public class LoginStep extends BaseStep {
     @Step("Логировние параметрами из config.properties.")
     public BasePage login() throws InterruptedException {
         logger.info("Выполнение step "+this+" login()");
-        ReadProperties properties = ReadProperties.createReadProperties();
+        ReadProperties properties = ReadProperties.getInstance();
         LoginPage loginPage = new LoginPage(driver, true);
 
 
