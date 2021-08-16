@@ -1,0 +1,372 @@
+{
+	"info": {
+		"_postman_id": "a878b7b3-040b-4ac4-bb44-6fca38b82ff4",
+		"name": "TestRail_06onl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "project",
+			"item": [
+				{
+					"name": "get_projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/get_projects",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/get_projects",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Test_apdate_Vladimir\",\r\n\t\"is_completed\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/update_project/{{:project_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/update_project/{{:project_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/delete_project/{{:project_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/delete_project/{{:project_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Test_added_Vladimir\",\r\n\t\"announcement\": \"This is the description for the project, Test_added_Vladimir\",\r\n\t\"show_announcement\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/add_project",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/add_project",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/get_project/{{:project_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/get_project/{{:project_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "milestone",
+			"item": [
+				{
+					"name": "get_milestone",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "hYE/RiquvQVIzXfiBwm3",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "atrostyanko+0601@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/get_milestone/{{:milestone_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/get_milestone/{{:milestone_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_milestones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/get_milestones/{{:project_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/get_milestones/{{:project_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_milestone",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"ML_02\",\r\n\t\"due_on\": 1394596385\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/add_milestone/{{:project_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/add_milestone/{{:project_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_milestone",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\t\"is_completed\": true \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/update_milestone/{{:milestone_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/update_milestone/{{:milestone_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_milestone",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/index.php?/api/v2/delete_milestone/{{:milestone_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"index.php"
+							],
+							"query": [
+								{
+									"key": "/api/v2/delete_milestone/{{:milestone_id}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "hYE/RiquvQVIzXfiBwm3",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "atrostyanko+0601@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
