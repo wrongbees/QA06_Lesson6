@@ -112,6 +112,7 @@ public class ReqresApiSimpleTest extends BaseApiReqresApiTest {
     @Test
     public void test8(){
 
+
         Response response = given().body(RequestBodies.TEST_8).request(Method.PUT,ReqresEndpoints.TEST_8);
 
         String responseBody = response.getBody().asString();
@@ -201,6 +202,7 @@ public class ReqresApiSimpleTest extends BaseApiReqresApiTest {
 
         Response response = given()
                 .body(RequestBodies.TEST_14)
+                //.post(ReqresEndpoints.TEST_14);
                 .request(Method.POST,ReqresEndpoints.TEST_14);
 
         String responseBody = response.getBody().asString();
