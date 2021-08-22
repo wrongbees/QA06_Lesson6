@@ -15,11 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestRailApiCasesExecutionTest extends BaseApiTest {
+
     int numberOfCases = 3;
     int projectId;
-    // int sectionId;
     Section currentSection;
-
     List<Cases> actualCaseslist = new ArrayList<>();
 
 
@@ -64,18 +63,16 @@ public class TestRailApiCasesExecutionTest extends BaseApiTest {
 
     }
 
-//    @Test//(dependsOnMethods = "getCasesTest")
-//    public void getAllCasesTest() {
-//        int suitId = new SectionAdapter().getSuitID(currentSection.getId());
-//        List<Cases> caseslist = new CasesAdapter().getAll(projectId,suitId);
-//
-
-//
-//       // Assert.assertTrue(caseslist.containsAll(actualCaseslist));
-
-    //   }
-
     @Test(dependsOnMethods = "getCasesTest")
+    public void getAllCasesTest() {
+        int suitId = new SectionAdapter().getSuitID(currentSection.getId());
+        List<Cases> caseslist = new CasesAdapter().getAll(projectId,suitId);
+
+        Assert.assertTrue(caseslist.containsAll(actualCaseslist));
+
+       }
+
+    @Test(dependsOnMethods = "getAllCasesTest")
     public void getHistoryForCases() {
         Cases actualCases = actualCaseslist.get(0);
         Response response = new CasesAdapter().getHistory(actualCases);
@@ -105,7 +102,7 @@ public class TestRailApiCasesExecutionTest extends BaseApiTest {
         for (Cases item : actualCaseslist)
             case_ids = case_ids + ", " + item.getId();
         String caseIds = case_ids.substring(2);
-        String caseIdsArray = String.format("[%s]", case_ids.substring(2));
+        String caseIdsArray = String.format("[%s]", caseIds);
 
         String jsonBody = String.format("{\n" +
                 "  \"case_ids\": %s,\n" +
@@ -113,11 +110,12 @@ public class TestRailApiCasesExecutionTest extends BaseApiTest {
                 "  \"estimate\": \"5m\"\n" +
                 "}", caseIdsArray);
 
-        System.out.println(jsonBody);
-        Response response = new CasesAdapter().updateCases(currentSection.getId(), jsonBody);
+        int suitId = new SectionAdapter().getSuitID(currentSection.getId());
+
+        Response response = new CasesAdapter().updateCases(suitId, jsonBody);
     }
 
-    //@Test(dependsOnMethods = "copyCasesToSectionTest")
+
     @Test(dependsOnMethods = "updateCasesTest")
     public void updateCaseTest() {
         Cases expected_cases = Cases.builder()
@@ -125,17 +123,29 @@ public class TestRailApiCasesExecutionTest extends BaseApiTest {
                 .refs("Какое то обновленное поле...")
                 .build();
 
-
         Cases actual_case = new CasesAdapter().updateCase(actualCaseslist.get(0).getId(), expected_cases);
         Assert.assertTrue(actual_case.getTitle().equals(expected_cases.getTitle()));
     }
 
     @Test(dependsOnMethods = "updateCaseTest")
     public void deleteCasesTest() {
+
+        String case_ids = "";
+        for (Cases item : actualCaseslist)
+            case_ids = case_ids + ", " + item.getId();
+        String caseIds = case_ids.substring(2);
+        String caseIdsArray = String.format("[%s]", caseIds);
+
+        String jsonBody = String.format("{\n" +
+                "  \"case_ids\": %s\n" +
+                "}", caseIdsArray);
+
         int suitId = new SectionAdapter().getSuitID(currentSection.getId());
+
+        System.out.println(jsonBody);
         System.out.println(suitId);
 
-        Response response = new CasesAdapter().deleteCases(projectId, suitId);
+        Response response = new CasesAdapter().deleteCases(projectId,suitId,jsonBody);
     }
 
 }

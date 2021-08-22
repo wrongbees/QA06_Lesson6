@@ -54,7 +54,7 @@ public class CasesAdapter extends BaseAdapter {
     public List<Cases> getAll(int projectId, int suitId) {
         Response response = given()
                 .when()
-                .get(String.format(CasesEndpoint.GET_CASE, projectId,suitId))
+                .get(String.format(CasesEndpoint.GET_CASES, projectId,suitId))
                 .then()
                 .log().body()
                 .log().status()
@@ -107,8 +107,9 @@ public class CasesAdapter extends BaseAdapter {
         return gson.fromJson(response.asString().trim(), Cases.class);
     }
 
-    public Response deleteCases(int projectId, int suitId){
+    public Response deleteCases(int projectId, int suitId, String jsonBody){
         Response response = given()
+                .body(jsonBody)
                 .when()
                 .post(String.format(CasesEndpoint.DELETE_CASE, projectId, suitId))
                 .then()
