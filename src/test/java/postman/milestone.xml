@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <announcement>This is the description for the project, Test_added_Vladimir</announcement>
+    <completed_on null="true" />
+    <id>24</id>
+    <is_completed>false</is_completed>
+    <name>Test_added_Vladimir</name>
+    <show_announcement>true</show_announcement>
+    <suite_mode>3</suite_mode>
+    <url>https://aqa06onl01.testrail.io/index.php?/projects/overview/24</url>
+</root>
